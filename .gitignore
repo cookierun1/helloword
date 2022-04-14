@@ -57,6 +57,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.pyc
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
@@ -109,6 +110,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+winebow/config/conf.yaml
 
 # Spyder project settings
 .spyderproject
