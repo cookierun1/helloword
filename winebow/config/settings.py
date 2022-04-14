@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     #app
     'config',
     'system_manage',
+    'shopping_mall',
 
     #allauth
     'allauth',

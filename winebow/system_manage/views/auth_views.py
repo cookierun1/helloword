@@ -16,7 +16,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
     login_url='system_manage:login'
     template_name = 'admin_main.html'
 
-    # @permission_required_method('read.system_manage', redirect_url='system_manage:denied')
+    @permission_required_method('read.system_manage', redirect_url='system_manage:denied')
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
 

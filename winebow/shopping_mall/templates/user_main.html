@@ -1,0 +1,19 @@
+{% extends "layouts/user_base.html" %}
+{% load static %}
+
+{% block main %}
+{% include 'sections/user/hero.html' %}
+<main id="main">
+{% include 'sections/user/about.html' %}
+{% include 'sections/user/why.html' %}
+{% include 'sections/user/menu.html' %}
+{% include 'sections/user/specials.html' %}
+{% include 'sections/user/events.html' %}
+{% include 'sections/user/book_a_table.html' %}
+{% include 'sections/user/gallery.html' %}
+{% include 'sections/user/chefs.html' %}
+{% include 'sections/user/testmonials.html' %}
+{% include 'sections/user/contact.html' %}
+
+</main><!-- End #main -->
+{% endblock %}
