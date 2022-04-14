@@ -14,6 +14,7 @@ Winebow is A platform system that considers the scalability of the wine informat
 ## How to Execute
 
 Execute the following lines to properly clone and run the project.
+
 config.yaml file is required.
 
 ```
