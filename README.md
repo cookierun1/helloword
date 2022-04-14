@@ -1,4 +1,6 @@
-# winebow
+# Winebow
+
+Winebow is A platform system that considers the scalability of the wine information integration service based on the establishment of an online basis for domestic wine trading.
 
 ## Development Environment
 
