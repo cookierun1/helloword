@@ -1,0 +1,200 @@
+{% extends "layouts/admin_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Access Manage</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item">Access Manage</li>
+            <li class="breadcrumb-item active">User</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+  
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Access Manage</h5>
+            <p>그룹을 생성 및 삭제하고 그룹의 권한을 관리할 수 있습니다.</p>
+            <div>
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal_create_group" onclick="clearCreationModal();">Create Group</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" >
+          <div class="card-header">
+            <b>상세 검색</b>
+          </div>
+          <div class="card-body">
+            <div class='row mb-3 mt-3'>
+                <div id='divGroupsSelect' class='col-md-3'>
+                  <select id='groupsSelect' class="form-control selectpicker" data-style-base='form-control' data-style='' data-live-search="true" title="사용자 그룹을 지정하세요." name='groups' onchange="getGroupPermissionList();">
+                      {% if groups %}
+                          {% for group in groups %}
+                          <option value="{{ group.id }}" {% if selected_group == group %} selected {% endif %}>{{ group.name }}</option>
+                          {% endfor %}
+                      {% endif %}
+                  </select>
+                </div>
+                <button type="button" id='btn_grp_delete' class='btn btn-danger ml-3 col-md-2' onclick="deleteGroup('{{selected_group.id}}');">그룹 삭제</button>
+            </div>
+            <div class="row">
+              <div class="input-group mb-3">
+                <div class="form-floating">
+                  <select class="form-select pe-5" id="criteriaSelect" aria-label="Floating label select example">
+                    {% if criteria_list %}
+                      {% for i in criteria_list %}
+                      <option value="{{i.name}}">{{i.showing_name}}</option>
+                      {% endfor %}
+                    {% endif %}
+                  </select>
+                  <label for="floatingSelect">검색 조건</label>
+                </div>
+                <input type="text" class="form-control" id="searchKeywordInput" onkeypress="if( event.keyCode == 13 ){ searchPerm(); }" placeholder='Input search text.'>
+                <button class="btn  btn-outline-secondary" onclick="searchPerm();">SEARCH</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+            <div class="card-body" id="contentDiv">
+                <input id='criteria' type='hidden' value='{{criteria}}'></input>
+                <input id='searchKeyword' type='hidden'  value='{{search_keyword}}'></input>
+                <input id='currentPage' type='hidden'  value='{{page}}'></input>
+                
+                <div id='permTableBody' class='table-responsive'>
+                    <table class='table table-hover table-bordered' id='permListTable' width='100%' cellspacing='0'>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th data-name='permId'>권한 ID</th>
+                        <th data-name='permName'>권한 이름</th>
+                        <th data-name='permUrl'>Access URL</th>
+                        <th data-name='permType'>Access Type</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if access_permissions %}
+                    {% for i in access_permissions %}
+                    <tr id='permRow{{i.id}}'>
+                        <td>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="Perm{{ i.id }}"  onchange="setGroupPermission('{{ i.id }}', '{{selected_group.id}}')" {% if i.hasPerm == True %} checked {% endif %}>
+                        </div>
+                        </td>
+                        <td id='permId{{i.id}}' name='id' data-value='{{ i.id }}'>{{ i.id }}</td>
+                        <td id='permName{{i.id}}'name='name' data-value='{{ i.name }}'>{{ i.name }}</td>
+                        <td id='permCodename{{i.id}}' name='codename' data-value='{{ i.codename }}'>{{ i.codename }}</td>
+                        <td id='permType{{i.id}}' name='content_type_id' data-value='{{ i.content_type_id }}'>{{ i.content_type_id }}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan='10'>
+                        {% if selected_group %}
+                        생성된 권한이 없습니다.
+                        {% else %}
+                        권한을 관리할 그룹을 선택하세요.
+                        {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    </tbody>
+                    </table>
+                </div>
+                {% if is_paginated %}
+                <div class="d-flex justify-content-center">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" onclick="getPage(1);"
+                                tabindex="-1"
+                                style='border: 1px solid var(--falcon-pagination-border-color);'
+                                >&laquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" onclick="getPage({{page_obj.previous_page_number}});"
+                                tabindex="-1"
+                                style='border: 1px solid var(--falcon-pagination-border-color);'
+                                >prev</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1"
+                            style='border: 1px solid var(--falcon-pagination-border-color);'>&laquo;</a>
+                        </li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1"
+                            style='border: 1px solid var(--falcon-pagination-border-color);'>prev</a>
+                        </li>
+                        {% endif %}
+
+                        {% for page in page_range %}
+                        <li class="page-item {% if page == page_obj.number %} disabled {% endif %}">
+                            <a class="page-link" onclick="getPage({{page}});" style='border: 1px solid var(--falcon-pagination-border-color);'>{{ page }}</a>
+                        </li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                                onclick="getPage({{ page_obj.next_page_number }});"
+                                style='border: 1px solid var(--falcon-pagination-border-color);'>next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                                onclick="getPage({{ page_obj.paginator.num_pages }});"
+                                style='border: 1px solid var(--falcon-pagination-border-color);'>&raquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#"
+                            style='border: 1px solid var(--falcon-pagination-border-color);'>next</a>
+                        </li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#"
+                            style='border: 1px solid var(--falcon-pagination-border-color);'>&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>    
+        </div>
+      </section>
+      <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modal_create_group" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">새 그룹(role) 생성</h4>
+                    <button aria-hidden="true" data-bs-dismiss="modal" class="close btn" type="button">&times;</button>
+                </div>
+                <div id='divCreateGroup' class="modal-body" align='right'>
+                  <input type="text" class="form-control" id="groupNameCreate" placeholder="그룹(role) 이름"/>
+                  <br>
+                  <br>
+                  <button type="button" class="btn btn-success" onclick="createGroup();">생성</button>
+                  
+                  <span id="error_msg" style="margin-left:20px;color:#FF6600;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
+
+<script src="{% static 'admin/js/system-manage/script_role_manage.js' %}"></script>
+<script src="{% static 'admin/js/system-manage/script_access_manage.js' %}"></script>
+{% endblock javascripts %}

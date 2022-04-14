@@ -1,0 +1,235 @@
+{% extends "layouts/admin_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>User Manage</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item">System Manage</li>
+            <li class="breadcrumb-item active">User</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+  
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">User Manage</h5>
+            <p>사용자를 검색, 생성, 수정 및 삭제할 수 있습니다.</p>
+            <div>
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal_create_user" onclick="clearCreationModal();">Create User</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" >
+          <div class="card-header">
+            <b>상세 검색</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="input-group mb-3">
+                <div class="form-floating">
+                  <select class="form-select pe-5" id="criteriaSelect" aria-label="Floating label select example">
+                    {% if criteria_list %}
+                      {% for i in criteria_list %}
+                      <option value="{{i.name}}">{{i.showing_name}}</option>
+                      {% endfor %}
+                    {% endif %}
+                  </select>
+                  <label for="floatingSelect">검색 조건</label>
+                </div>
+                <input type="text" class="form-control" id="searchKeywordInput" onkeypress="if( event.keyCode == 13 ){ searchUser(); }" placeholder='Input search text.'>
+                <button class="btn  btn-outline-secondary" onclick="searchUser();">SEARCH</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="card-body" id="contentDiv">
+                  <input id='criteria' type='hidden' value='{{criteria}}'></input>
+                  <input id='searchKeyword' type='hidden'  value='{{search_keyword}}'></input>
+                  <input id='currentPage' type='hidden'  value='{{page}}'></input>
+                  <table class='table table-hover' id='dataTable' width='100%' cellspacing='0'>
+                    <thead>
+                    <tr>
+                      <th class='col-md-auto'>#</th>
+                      <th class='col-md-auto'>ID</th>
+                      <th class='col-md-2'>사용자 그룹</th>
+                      <th class='col-md-auto'>성</th>
+                      <th class='col-md-auto'>이름</th>
+                      <th class='col-md-auto'>Email</th>
+                      <th class='col-md-1'>활성화</th>
+                      <th class='col-md-auto'>최근 로그인</th>
+                      <th scope='col' class='col-md-2'></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if users %}
+                    {% for i in users %}
+                    <tr id='row{{i.id}}'>
+                      <td id='id{{i.id}}' name='id' data-value='{{ i.id }}'>{{ i.id }}</td>
+                      <td id='userName{{i.id}}'name='username' data-value='{{ i.username }}'>
+                        {{ i.username }}
+                      </td>
+                      <td>
+                        <select id='groups{{i.id}}' name='groups' class="form-control"  disabled>
+                        {{i.groups}}
+                        {% if groups %}
+                          <option value=""></option>
+                          {% for group in groups %}
+                            {% if group.id == i.groups.all.0.id %}
+                              <option value="{{ group.id }}" selected>{{ group.name }}</option>
+                            {% else %}
+                              <option value="{{ group.id }}">{{ group.name }}</option>
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                        </select>
+                      </td>
+                      
+                      <td>
+                        <input type='text' id='firstName{{i.id}}' name='first_name' class='form-control' value='{{ i.first_name }}' disabled />
+                      </td>
+                      <td>
+                        <input type='text' id='lastName{{i.id}}' name='last_name' class='form-control' value='{{ i.last_name }}' disabled />
+                      </td>
+                      <td>
+                        <input type='text' id='email{{i.id}}' name='email' class='form-control' value='{{ i.email }}' disabled />
+                      </td>
+          
+                      <td>
+                        <div class="form-check form-switch">
+                          {% if i.is_active == True %}
+                            <input class="form-check-input" type="checkbox" id="isActive{{i.id}}" name='is_active' checked disabled/>
+                          {% else %}
+                            <input class="form-check-input" type="checkbox" id="isActive{{i.id}}" name='is_active' disabled/>
+                          {% endif %}      
+                        </div>   
+                      </td>
+                      <td id='lastLogin{{i.id}}' name='id' data-value='{{ i.last_login }}'>{{ i.last_login|date:'Y/m/d f' }}</td>
+                      <td align='right'>
+                        <button type="button" id='btn_mode{{ i.id }}'class='btn btn-warning' onclick="startInputMode('{{i.id}}');">수정</button>
+                        <button type="button" id='btn_del{{ i.id }}' class='btn btn-danger' onclick="deleteUser('{{i.id}}');">삭제</button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                      <td colspan='10'>검색된 사용자가 없습니다.</td>
+                    </tr>
+                    {% endif %}
+                    </tbody>
+                  </table>
+                {% if is_paginated %}
+                  <div class="d-flex justify-content-center">
+                      <ul class="pagination">
+                          {% if page_obj.has_previous %}
+                          <li class="page-item">
+                              <a class="page-link" onclick="getPage(1);"
+                                  tabindex="-1"
+                                  style='border: 1px solid var(--falcon-pagination-border-color);'
+                                  >&laquo;</a>
+                          </li>
+                          <li class="page-item">
+                              <a class="page-link" onclick="getPage({{page_obj.previous_page_number}});"
+                                  tabindex="-1"
+                                  style='border: 1px solid var(--falcon-pagination-border-color);'
+                                  >prev</a>
+                          </li>
+                          {% else %}
+                          <li class="page-item disabled">
+                              <a class="page-link" href="#" tabindex="-1"
+                              style='border: 1px solid var(--falcon-pagination-border-color);'>&laquo;</a>
+                          </li>
+                          <li class="page-item disabled">
+                              <a class="page-link" href="#" tabindex="-1"
+                              style='border: 1px solid var(--falcon-pagination-border-color);'>prev</a>
+                          </li>
+                          {% endif %}
+
+                          {% for page in page_range %}
+                          <li class="page-item {% if page == page_obj.number %} disabled {% endif %}">
+                            <a class="page-link" onclick="getPage({{page}});" style='border: 1px solid var(--falcon-pagination-border-color);'>{{ page }}</a>
+                          </li>
+                          {% endfor %}
+
+                          {% if page_obj.has_next %}
+                          <li class="page-item">
+                              <a class="page-link"
+                                  onclick="getPage({{ page_obj.next_page_number }});"
+                                  style='border: 1px solid var(--falcon-pagination-border-color);'>next</a>
+                          </li>
+                          <li class="page-item">
+                              <a class="page-link"
+                                  onclick="getPage({{ page_obj.paginator.num_pages }});"
+                                  style='border: 1px solid var(--falcon-pagination-border-color);'>&raquo;</a>
+                          </li>
+                          {% else %}
+                          <li class="page-item disabled">
+                              <a class="page-link" href="#"
+                              style='border: 1px solid var(--falcon-pagination-border-color);'>next</a>
+                          </li>
+                          <li class="page-item disabled">
+                              <a class="page-link" href="#"
+                              style='border: 1px solid var(--falcon-pagination-border-color);'>&raquo;</a>
+                          </li>
+                          {% endif %}
+                      </ul>
+                  </div>
+                {% endif %}
+          </div>        
+        </div>
+      </section>
+
+      <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modal_create_user" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">사용자 생성</h4>
+                    <button aria-hidden="true" data-bs-dismiss="modal" class="close btn" type="button">&times;</button>
+                </div>
+                <div id='divCreateUser' class="modal-body" align='right'>
+                    <input type="text" class="form-control" id="username" name='username' placeholder="User Name(login ID)"/>
+                    <br>
+                    <input type="password" class="form-control" id="password" name='password' placeholder="Password"/>
+                    <br>
+      
+                    <select id='groups' class="form-control selectpicker pb-4" data-style-base='form-control' data-style='' data-live-search="true" name='groups' onchange="">
+                      <option value="">사용자 그룹을 지정하세요.</option>
+                      {% if groups %}
+                        {% for group in groups %}
+                          <option value="{{ group.id }}">{{ group.name }}</option>
+                        {% endfor %}
+                      {% endif %}
+                    </select>
+      
+                    <br>
+                    <input type="text" class="form-control" id="firstName" name='first_name' placeholder="First Name"/>
+                    <br>
+                    <input type="text" class="form-control" id="lastName" name='last_name' placeholder="Last Name"/>
+                    <br>
+                    <input type="email" class="form-control" id="email" name='email' placeholder="Email"/>
+                    <br>
+                    
+                    <button type="button" data-dismiss="modal" class="btn btn-success" onclick="createUser();">생성</button>
+                    
+                    <span id="creation_error_msg" style="margin-left:20px;color:#FF6600;"></span>
+                </div>
+            </div>
+        </div>
+      </div>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
+<script src="{% static 'admin/js/system-manage/script_user_manage.js' %}"></script>
+{% endblock javascripts %}
