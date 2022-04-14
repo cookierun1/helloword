@@ -1,10 +1,13 @@
 # winebow
 
-
 ## Development Environment
 
-- python=3.8.13
-- django=3.2.13
+|Category| - |
+| --- | --- |
+|Language|python v3.8.13|
+|Web Framework|Django v3.2.13|
+|UI Template|NiceAdmin v2.2.2, Delicious v4.7.1|
+|Built with|Bootstrap v5.1.3|
 
 ## How to Execute
 
