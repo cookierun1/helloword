@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from system_manage.views.custom.paginated_listview import PaginatedListView
 from system_manage.views.custom.searchable_listview import CriteriaNamePair, SearchableListView
-from system_manage.views.role_manage_views import get_all_groups
+from system_manage.views.system_manage_views.role_manage_views import get_all_groups
 from django.core.paginator import Paginator
 
 class UserManageView(SearchableListView, PaginatedListView):
@@ -15,7 +15,7 @@ class UserManageView(SearchableListView, PaginatedListView):
     paginate_by = 10
     paginate_window_half = 2
     context_object_name = 'users'
-    template_name = 'user_manage.html'
+    template_name = 'system_manage/user_manage.html'
 
     IF_CRITERIA = [
         CriteriaNamePair('user_id', '사용자 ID'),
@@ -89,7 +89,7 @@ class UserManageView(SearchableListView, PaginatedListView):
         context['users'] = users
         context['groups'] = groups
 
-        return render(request, 'user_manage.html', context)
+        return render(request, 'system_manage/user_manage.html', context)
 
     @permission_required_method('write.user_manage', raise_exception=True)
     def put(self, request: HttpRequest):
@@ -133,7 +133,7 @@ class UserManageView(SearchableListView, PaginatedListView):
         context['users'] = users
         context['groups'] = groups
 
-        return render(request, 'user_manage.html', context)
+        return render(request, 'system_manage/user_manage.html', context)
 
 
     @permission_required_method('write.user_manage', raise_exception=True)
@@ -168,7 +168,7 @@ class UserManageView(SearchableListView, PaginatedListView):
         context['users'] = users
         context['groups'] = groups
 
-        return render(request, 'user_manage.html', context)
+        return render(request, 'system_manage/user_manage.html', context)
 
 def search_users(keyword: str, criteria: str, *fields):
     return get_all_users(*fields).filter(

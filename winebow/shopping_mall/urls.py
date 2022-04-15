@@ -1,6 +1,6 @@
 import imp
 from django.urls.conf import path
-from shopping_mall.views import HomeView
+from shopping_mall.views.user_views.auth_views import HomeView
 
 app_name = 'shopping_mall'
 urlpatterns = [

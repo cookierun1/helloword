@@ -2,11 +2,11 @@ import imp
 from django.urls.conf import path
 from django.contrib.auth.views import LogoutView
 
-from system_manage.views.auth_views import HomeView, LoginView, PermissionDeniedView
-from system_manage.views.user_manage_views import UserManageView
-from system_manage.views.permission_manage_views import AccessPermissionView
-from system_manage.views.access_manage_views import AccessManageView, GroupPermsListView
-from system_manage.views.role_manage_views import RoleManageView
+from system_manage.views.system_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView
+from system_manage.views.system_manage_views.user_manage_views import UserManageView
+from system_manage.views.system_manage_views.permission_manage_views import AccessPermissionView
+from system_manage.views.system_manage_views.access_manage_views import AccessManageView, GroupPermsListView
+from system_manage.views.system_manage_views.role_manage_views import RoleManageView
 
 
 app_name = 'system_manage'

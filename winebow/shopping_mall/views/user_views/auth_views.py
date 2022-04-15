@@ -5,7 +5,7 @@ from django.http import HttpRequest, JsonResponse
 # Create your views here.
 class HomeView(TemplateView):
     '''
-    관리자 메인 화면
-    김병주/2022.04.13
+    사용자 메인 화면
+    김병주/2022.04.14
     '''
-    template_name = 'user_main.html'
+    template_name = 'user/user_main.html'

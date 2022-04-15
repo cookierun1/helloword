@@ -5,8 +5,8 @@ from system_manage.models import AccessPermission
 from django.contrib.auth.models import Group
 from system_manage.views.custom.paginated_listview import PaginatedListView
 from system_manage.views.custom.searchable_listview import CriteriaNamePair, SearchableListView
-from system_manage.views.role_manage_views import get_all_groups, get_group
-from system_manage.views.permission_manage_views import filter_access_perms, get_access_perms
+from system_manage.views.system_manage_views.role_manage_views import get_all_groups, get_group
+from system_manage.views.system_manage_views.permission_manage_views import filter_access_perms, get_access_perms
 from django.http.request import HttpRequest
 from django.http.response import HttpResponseBadRequest
 from django.views.generic import View
@@ -17,7 +17,7 @@ class GroupPermsListView(SearchableListView, PaginatedListView):
     # ListView
     model = AccessPermission
     context_object_name = 'access_permissions'
-    template_name = 'access_manage.html'
+    template_name = 'system_manage/access_manage.html'
 
     # PaginatedListView
     paginate_window_half = 2
@@ -105,7 +105,7 @@ class AccessManageView(LoginRequiredMixin, View):
 
         context['groups'] = groups
         context['criteria_list'] = GroupPermsListView.IF_CRITERIA
-        return render(request, 'access_manage.html', context)
+        return render(request, 'system_manage/access_manage.html', context)
 
     
     @permission_required_method('write.access_manage', raise_exception=True)
@@ -140,7 +140,7 @@ class AccessManageView(LoginRequiredMixin, View):
 
         context['selected_group'] = selected_group
         context['access_permissions'] = perms
-        return render(request, 'access_manage.html', context)
+        return render(request, 'system_manage/access_manage.html', context)
 
 
 def set_group_permission(group_id, permission_id, has_perm):

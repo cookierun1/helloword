@@ -18,7 +18,7 @@ class AccessPermissionView(LoginRequiredMixin, SearchableListView, PaginatedList
     # ListView
     model = AccessPermission
     context_object_name = 'access_permissions'
-    template_name = 'permission_manage.html'
+    template_name = 'system_manage/permission_manage.html'
 
     # PaginatedListView
     paginate_window_half = 2
@@ -88,7 +88,7 @@ class AccessPermissionView(LoginRequiredMixin, SearchableListView, PaginatedList
         perms = get_access_perms()
 
         context['access_permissions'] = perms
-        return render(request, 'permission_manage.html', context)
+        return render(request, 'system_manage/permission_manage.html', context)
         
     
     @permission_required_method('write.permission_manage', raise_exception=True)
@@ -117,7 +117,7 @@ class AccessPermissionView(LoginRequiredMixin, SearchableListView, PaginatedList
         perms = get_access_perms()
 
         context['access_permissions'] = perms
-        return render(request, 'permission_manage.html', context)
+        return render(request, 'system_manage/permission_manage.html', context)
         
     
     @permission_required_method('write.permission_manage', raise_exception=True)
@@ -144,7 +144,7 @@ class AccessPermissionView(LoginRequiredMixin, SearchableListView, PaginatedList
         perms = get_access_perms()
 
         context['access_permissions'] = perms
-        return render(request, 'permission_manage.html', context)
+        return render(request, 'system_manage/permission_manage.html', context)
         
 
 def delete_access_perm(id):

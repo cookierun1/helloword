@@ -14,7 +14,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
     김병주/2022.04.13
     '''
     login_url='system_manage:login'
-    template_name = 'admin_main.html'
+    template_name = 'system_manage/admin_main.html'
 
     @permission_required_method('read.system_manage', redirect_url='system_manage:denied')
     def get(self, request: HttpRequest, *args, **kwargs):
@@ -31,7 +31,7 @@ class LoginView(View):
         if request.user.is_authenticated:
             return redirect('system_manage:home')
 
-        return render(request, 'admin_login.html', context)
+        return render(request, 'system_manage/admin_login.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
         context = {}
@@ -57,4 +57,4 @@ class LoginView(View):
 
 class PermissionDeniedView(LoginRequiredMixin, TemplateView):
     login_url = 'system_manage:login'
-    template_name='permission_denied.html'
+    template_name='system_manage/permission_denied.html'
