@@ -23,7 +23,7 @@ class BaseModel(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     phone_no = models.CharField(db_column='phone_no', null=True, max_length=100, default='')
-    usage_flag = models.CharField(max_length=10, default='1')
+    email_verified = models.CharField(max_length=10, default='0')
     name = models.CharField(db_column='name', max_length=100)
 
     class Meta:
