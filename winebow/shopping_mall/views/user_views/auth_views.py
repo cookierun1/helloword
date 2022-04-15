@@ -25,14 +25,10 @@ class LoginView(View):
 
     def post(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        id = request.POST['id']
+        id = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=id, password=password)
         if user is not None:
-            if user.profile.email_flag == '0':
-                context['success'] = False
-                context['message'] = '가입한 이메일을 확인하여 활성화 해주세요.'
-                return JsonResponse(context, content_type='application/json')
             login(request, user)
             if 'next' in request.GET:
                 context['url'] = request.GET.get('next')

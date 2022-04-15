@@ -6,28 +6,28 @@
 <main id="main">
     <section id="contact" class="contact">
         <div class="container mt-5 mb-5">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form" id="loginForm">
                 <div class="section-title">
                     <h2><span>Login</span></h2>
                     </div>
             <div class="row mt-3 mb-2">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 form-group">
-                    <input type="text" name="id" class="form-control" id="id" placeholder="ID" required>
+                    <input type="text" name="username" class="form-control" id="username" placeholder="ID" required onkeyup="enterkey()">
                 </div>
                 <div class="col-md-4"></div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 form-group mt-3 mt-md-0">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required onkeyup="enterkey()">
                     <div class="text-end">
                         <a href="#"><small><i>Forgot Password?</i></small></a>
                     </div>
                 </div>
                 <div class="col-md-4"></div>
             </div>
-            <div class="text-center"><button type="button">Login</button></div>
+            <div class="text-center"><button type="button" id="btn-login">Login</button></div>
             <hr>
             <div class="text-center mt-3 mb-5">
                 <small><i>
@@ -42,5 +42,5 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'user/js/system_manage/script_login.js' %}"></script> 
+<script src="{% static 'user/js/user/script_login.js' %}"></script> 
 {% endblock javascripts %}

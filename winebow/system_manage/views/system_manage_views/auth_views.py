@@ -40,10 +40,10 @@ class LoginView(View):
         user = authenticate(username=id, password=password)
 
         if user is not None:
-            # if not (user.is_superuser or str(user.groups.all()[0]) == 'master'):
-            #     context['success'] = False
-            #     context['message'] = '접속 권한이 없습니다.'
-            #     return JsonResponse(context, content_type='application/json')
+            if not (user.is_superuser or str(user.groups.all()[0]) == 'master'):
+                context['success'] = False
+                context['message'] = '접속 권한이 없습니다.'
+                return JsonResponse(context, content_type='application/json')
             login(request, user)
             if 'next' in request.GET:
                 url = request.GET.get('next')
