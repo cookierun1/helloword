@@ -1,8 +1,16 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.http import HttpRequest, JsonResponse
 from django.contrib.auth import authenticate, login
-
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+from django.core.mail import EmailMessage
+from shopping_mall.tokens import account_activation_token
+from django.contrib.auth.models import User, Group
+from config.models import Profile
 
 class HomeView(TemplateView):
     '''
@@ -18,9 +26,8 @@ class LoginView(View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        if request.user.id:
+        if request.user.is_authenticated:
             return redirect('shopping_mall:home')
-
         return render(request, 'user/user_login.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
@@ -38,3 +45,100 @@ class LoginView(View):
             context['success'] = False
             context['message'] = '일치하는 회원정보가 없습니다.'
         return JsonResponse(context, content_type='application/json')
+
+class RegisterView(View):
+    '''
+    회원가입 기능, 이메일 전송
+    김병주/2022.04.15
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = {}
+        if request.user.is_authenticated:
+            return redirect('shopping_mall:home')
+
+        return render(request, 'user/user_register.html', context)
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        context = {}
+        id = request.POST['username']
+        password = request.POST['password']
+        password_confirm = request.POST['confirm-password']
+        email = request.POST['email']
+
+        if password != password_confirm:
+            context['success'] = False
+            context['message'] = '비밀번호가 일치하지 않습니다.'
+            return JsonResponse(context, content_type='application/json')
+
+        try:
+            user = User.objects.get(username=id)
+            context['success'] = False
+            context['message'] = '아이디가 이미 존재합니다.'
+            return JsonResponse(context, content_type='application/json')
+
+        except:
+            print('아이디 사용 가능')
+        try:
+            user = User.objects.get(email=email)
+            context['success'] = False
+            context['message'] = '이미 가입한 이메일 입니다.'
+            return JsonResponse(context, content_type='application/json')
+        except:
+            print('이메일 사용 가능')
+            user = User.objects.create_user(
+                id,
+                email,
+                password
+            )
+            user.is_active = False
+            user.save()
+            userid = user.id
+        current_site = get_current_site(request) 
+        message = render_to_string('user/activation_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        })
+
+        mail_title = "계정 활성화 확인 이메일"
+        sendEmail = EmailMessage(mail_title, message, settings.EMAIL_HOST_USER, to=[email])
+        print("이메일 전송: ", sendEmail.send())
+        default_group, _ = Group.objects.get_or_create(name=settings.DEFAULT_GROUP)
+        user.groups.add(default_group.id)
+
+        context['success'] = True
+        context['message'] = '가입 되었습니다.'
+        return JsonResponse(context, content_type='application/json')
+
+def activate(request: HttpRequest, uidb64, token):
+    '''
+    토큰 인증을 통한 계정 활성화
+    김병주/2022.04.18
+    '''
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        profile = user.profile
+        profile.email_verified = '1'
+        profile.save()
+        return render(request, 'user/activation_complete.html', {'username' : user.username})
+    else:
+        return render(request, 'user/activation_error.html', {'error' : '만료 된 링크입니다.'})
+
+class ConfirmEmailView(View):
+    '''
+    이메일 보냄 확인 페이지
+    김병주/2022.04.15
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = {}
+        email = request.GET.get('email', '')
+        context['email'] = email
+
+        return render(request, 'user/confirm_email.html', context)

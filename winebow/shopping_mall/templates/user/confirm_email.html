@@ -1,0 +1,26 @@
+{% extends "layouts/user_base.html" %}
+{% load static %}
+
+{% block main %}
+
+<main id="main">
+    <section id="contact" class="contact" style="margin-top: 100px; margin-bottom: 100px;">
+        <div class="container mt-5 mb-5">
+              <div class="php-email-form text-center">
+                <div class="section-header mb-5">
+                    <h1>Please check your email!</h1>
+                </div>
+                <p class="">An email has been sent to <strong>{{email}}</strong>. Please click on the included link to activate.
+                    <p class="mb-5"><strong>Haven't received an email?</strong> Please check your spam mail folder.</p>
+                </p>
+                <hr>
+                <div class="text-center"><button type="button" id="btn-register" onclick="location.href='{% url 'shopping_mall:login' %}'">Return to login</button></div>
+             </div>
+        </div>
+    </section><!-- End Contact Section -->
+</main><!-- End #main -->
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

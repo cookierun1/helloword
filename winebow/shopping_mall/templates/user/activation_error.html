@@ -1,0 +1,26 @@
+{% extends "layouts/user_base.html" %}
+{% load static %}
+
+{% block main %}
+
+<main id="main">
+    <section id="contact" class="contact" style="margin-top: 100px; margin-bottom: 100px;">
+        <div class="container mt-5 mb-5">
+              <div class="php-email-form text-center">
+                <div class="section-header mb-5">
+                    <h1>404</h1>
+                    <p>{{error}}</p>
+                </div>
+                <p class="mb-5">Make sure the address is correct and that the page hasn't moved. If you think this is a mistake, 
+                    <a href="#">contact us</a>.</p>
+                <hr>
+                <div class="text-center"><button type="button" id="btn-register" onclick="location.href='{% url 'shopping_mall:login' %}'">Return to login</button></div>
+             </div>
+        </div>
+    </section><!-- End Contact Section -->
+</main><!-- End #main -->
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

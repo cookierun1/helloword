@@ -1,0 +1,67 @@
+{% extends "layouts/user_base.html" %}
+{% load static %}
+
+{% block main %}
+
+<main id="main">
+    <section id="contact" class="contact">
+        <div class="container mt-5 mb-5">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form" id="registerForm">
+                <div class="section-title">
+                    <h2><span>Register</span></h2>
+                    </div>
+            <div class="row mt-3 mb-2">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 form-group">
+                    <label class="form-label" for="username">ID *</label>
+                    <input type="text" name="username" class="form-control" id="username" placeholder="Input ID (영문,숫자 6~20자)" required>
+                    <small id="idError" class="text-danger"></small>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 form-group mt-3 mt-md-0">
+                    <label class="form-label" for="password">Password *</label>
+                    <input type="password" class="form-control mb-3" name="password" id="password" placeholder="Input Password (영문,숫자 조합으로 8~16자리)" required>
+                    <input type="password" class="form-control" name="confirm-password" id="confirm-password" placeholder="Confirm Password" required>
+                    <small id="passwordError" class="text-danger"></small>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 form-group mt-3 mt-md-0">
+                    <label class="form-label" for="email">EMAIL( 이메일 인증  * )</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                    <small id="emailError" class="text-danger"></small>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 form-group mt-3 mt-md-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="register-checkbox" style="height: 15px; margin-top: 5px;"/>
+                        <label class="form-label" for="register-checkbox">I accept the <a href="#">terms </a>and <a href="#">privacy policy</a></label>
+                      </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="text-center"><button type="button" id="btn-register">Register</button></div>
+            <hr>
+            <div class="text-center mt-3 mb-5">
+                <small><i>
+                    Have an account? <a href="{% url 'shopping_mall:login'%}">Login.</a>
+                </i></small>
+            </div>
+            </form>
+        </div>
+    </section><!-- End Contact Section -->
+</main><!-- End #main -->
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'user/js/user/script_register.js' %}"></script> 
+{% endblock javascripts %}
