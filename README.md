@@ -19,7 +19,7 @@ config.yaml file is required.
 ```
 $ git clone https://github.com/winebowray/winebow.git
 add config.yaml to /winebow/config 
-$ conda create -n ["env"] python=3.8
+$ conda create -n ["env"] python=3.8.13
 $ conda activate ["env"]
 $ cd winebow
 $ pip install -r requirements.txt
