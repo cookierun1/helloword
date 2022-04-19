@@ -5,3 +5,4 @@ pyyaml==6.0
 graphene-django==2.15.0
 django-graphql-jwt==0.3.4
 django-graphql-auth==0.3.16
+validate-email==1.3

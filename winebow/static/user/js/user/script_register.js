@@ -114,6 +114,7 @@ function CheckID(str){
         return true;
     }
 }
+console.log(CheckID('qudwn'))
 
 //이메일 정규식
 function CheckEmail(str){                                        
@@ -131,7 +132,7 @@ function CheckEmail(str){
 
 //비밀번호 정규식
 function CheckPassword(str){
-   if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/.test(str)){
+   if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()+.,~]{8,16}$/.test(str)){
        document.getElementById('passwordError').innerText = '숫자와 영문자 조합으로 8~16자리를 사용해야 합니다.';
        return false;
    }

@@ -9,6 +9,8 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.core.mail import EmailMessage
 from shopping_mall.tokens import account_activation_token
+from django.core.validators import RegexValidator
+from validate_email import validate_email
 from django.contrib.auth.models import User, Group
 from config.models import Profile
 
@@ -28,6 +30,8 @@ class LoginView(View):
         context = {}
         if request.user.is_authenticated:
             return redirect('shopping_mall:home')
+        str = 'qudwn1114@gmal.co'
+        print(validate_email(str))
         return render(request, 'user/user_login.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
@@ -55,7 +59,6 @@ class RegisterView(View):
         context = {}
         if request.user.is_authenticated:
             return redirect('shopping_mall:home')
-
         return render(request, 'user/user_register.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
@@ -64,6 +67,19 @@ class RegisterView(View):
         password = request.POST['password']
         password_confirm = request.POST['confirm-password']
         email = request.POST['email']
+        if not validate_username(id):
+            context['success'] = False
+            context['message'] = "유효하지 않은 사용자 이름입니다."
+            return JsonResponse(context, content_type="application/json")
+        if not validate_password(password):
+            context['success'] = False
+            context['message'] = "유효하지 않은 비밀번호입니다."
+            return JsonResponse(context, content_type="application/json")
+    
+        if not validate_email(email):
+            context['success'] = False
+            context['message'] = "유효하지 않은 이메일 주소입니다."
+            return JsonResponse(context, content_type="application/json")
 
         if password != password_confirm:
             context['success'] = False
@@ -75,9 +91,9 @@ class RegisterView(View):
             context['success'] = False
             context['message'] = '아이디가 이미 존재합니다.'
             return JsonResponse(context, content_type='application/json')
-
         except:
-            print('아이디 사용 가능')
+            pass
+        
         try:
             user = User.objects.get(email=email)
             context['success'] = False
@@ -93,6 +109,7 @@ class RegisterView(View):
             user.is_active = False
             user.save()
             userid = user.id
+            
         current_site = get_current_site(request) 
         message = render_to_string('user/activation_email.html', {
             'user': user,
@@ -142,3 +159,41 @@ class ConfirmEmailView(View):
         context['email'] = email
 
         return render(request, 'user/confirm_email.html', context)
+
+
+
+def validate_username(username):
+    '''
+    아이디 유효성 체크
+    김병주/2022.04.19
+    '''
+    try:
+        RegexValidator(regex=r'^[a-zA-z0-9]{6,20}$')(username)
+    except:
+        return False
+
+    return True
+
+def validate_password(password):
+    '''
+    비밀번호 유효성 체크
+    김병주/2022.04.19
+    '''
+    try:
+        RegexValidator(regex=r'^[a-zA-z0-9!@#$%^&*()+.,~]{8,16}$')(password)
+    except:
+        return False
+
+    return True
+
+def validate_username(username):
+    '''
+    이메일 유효성 체크
+    김병주/2022.04.19
+    '''
+    try:
+        RegexValidator(regex=r'^[a-zA-z0-9]{6,20}$')(username)
+    except:
+        return False
+
+    return True
