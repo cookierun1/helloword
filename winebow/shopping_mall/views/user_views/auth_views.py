@@ -30,8 +30,6 @@ class LoginView(View):
         context = {}
         if request.user.is_authenticated:
             return redirect('shopping_mall:home')
-        str = 'qudwn1114@gmal.co'
-        print(validate_email(str))
         return render(request, 'user/user_login.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
