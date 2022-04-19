@@ -1,4 +1,3 @@
-import imp
 from django.urls.conf import path
 from django.contrib.auth.views import LogoutView
 
