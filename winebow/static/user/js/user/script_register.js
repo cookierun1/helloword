@@ -114,7 +114,6 @@ function CheckID(str){
         return true;
     }
 }
-console.log(CheckID('qudwn'))
 
 //이메일 정규식
 function CheckEmail(str){                                        
