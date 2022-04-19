@@ -2,3 +2,6 @@ Django==3.2.13
 django-allauth==0.50.0
 mysqlclient==2.0.3
 pyyaml==6.0
+graphene-django==2.15.0
+django-graphql-jwt==0.3.4
+django-graphql-auth==0.3.16
