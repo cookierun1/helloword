@@ -1,0 +1,63 @@
+{% extends "layouts/admin_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Data Edit</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item">Example</li>
+            <li class="breadcrumb-item active">Table</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Data Edit</h5>
+            <form id="data-form" method="post" action="">
+                <div class="row mb-3"> 
+                    <label for="inputText" class="col-sm-2 col-form-label">Text</label>
+                    <div class="col-sm-10"> 
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                     <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                     <div class="col-sm-10"> 
+                         <input type="email" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3"> 
+                    <label for="inputNumber" class="col-sm-2 col-form-label">Number</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3"> 
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Textarea</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3"> 
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10"> 
+                        <button type="button" class="btn btn-success">save</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

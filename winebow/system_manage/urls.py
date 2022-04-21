@@ -7,6 +7,8 @@ from system_manage.views.system_manage_views.permission_manage_views import Acce
 from system_manage.views.system_manage_views.access_manage_views import AccessManageView, GroupPermsListView
 from system_manage.views.system_manage_views.role_manage_views import RoleManageView
 
+from system_manage.views.example_views.example_views import ExampleTableView, ExampleTableCreateView, ExampleTableDetailView, ExampleTableEditView
+
 
 app_name = 'system_manage'
 urlpatterns = [
@@ -20,4 +22,10 @@ urlpatterns = [
     path('access-manage/', AccessManageView.as_view(), name='access_manage'),
     path('access-manage/permissions/', GroupPermsListView.as_view(), name='access_manage_permissions'),
     path('role-manage/', RoleManageView.as_view(), name='role_manage'),
+
+    path('example-table/', ExampleTableView.as_view(), name='example_table'),
+    path('example-table-create/', ExampleTableCreateView.as_view(), name='example_table_create'),
+    path('example-table-detail/<int:pk>', ExampleTableDetailView.as_view(), name='example_table_detail'),
+    path('example-table-edit/<int:pk>', ExampleTableEditView.as_view(), name='example_table_edit'),
+
 ]

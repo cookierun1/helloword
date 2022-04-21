@@ -1,0 +1,61 @@
+{% extends "layouts/admin_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Table CRUD</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item">Example</li>
+            <li class="breadcrumb-item active">Table</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+  
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">CRUD Example</h5>
+            <p>Data를 검색, 생성, 수정 및 삭제할 수 있습니다.</p>
+            <div>
+              <a class="btn btn-primary" href="{% url 'system_manage:example_table_create' %}">Create Data</a>
+            </div>
+          </div>
+        </div>
+        <div class="card" >
+            <div class="card-body">
+                <h5 class="card-title">Data</h5>
+                <table class='table table-hover' id='dataTable' width='100%' cellspacing='0'>
+                    <thead>
+                    <tr>
+                      <th class='col-md-auto'>#</th>
+                      <th class='col-md-auto'>ID</th>
+                      <th class='col-md-auto'>성</th>
+                      <th class='col-md-auto'>이름</th>
+                      <th class='col-md-auto'>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id='row{{i.id}}'>
+                      <td>ㅋㅋ</td>
+                      <td>ㅋㅋ</td>
+                      <td>ㅋㅋ</td> 
+                      <td>ㅋㅋ</td> 
+                      <td>ㅋㅋ</td> 
+                    </tr>
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}
