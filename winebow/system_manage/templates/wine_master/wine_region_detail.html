@@ -1,0 +1,78 @@
+{% extends "layouts/admin_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Data</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item">Wine Master</li>
+            <li class="breadcrumb-item active">Region</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">Wine Region Detail</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'system_manage:wine_region' %}"><i class="bi bi-list"></i> 목록</a></div>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
+                </div>
+            </div>
+            <form id="data-form" method="post" action="">
+                <div class="row mb-3"> 
+                    <label for="name_kr" class="col-sm-2 col-form-label">와인 지역 이름 (한글)</label>
+                    <div class="col-sm-10"> 
+                        <input type="text" id="name_kr" name="name_kr" class="form-control" value="{{data.regionNameKr}}" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3"> 
+                    <label for="name_en" class="col-sm-2 col-form-label">와인 지역 이름 (영어)</label>
+                    <div class="col-sm-10"> 
+                        <input type="text" id="name_en" name="name_en" class="form-control" value="{{data.regionNameEn}}" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3"> 
+                    <label for="image" class="col-sm-2 col-form-label">사진</label>
+                    <div class="col-sm-10">
+                        {% if data.regionImg %}
+                            <img src="/{{data.regionImg}}" width="150px" class="img-fluid" alt="...">
+                        {% else %}
+                            이미지 없음
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mb-3"> 
+                    <label for="description" class="col-sm-2 col-form-label">설명</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="description" name="description" rows="3" readonly>{{data.regionDes}}</textarea>
+                    </div>
+                </div>
+                <div class="row mb-3"> 
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10"> 
+                        <a type="button" class="btn btn-warning" href="{% url 'system_manage:wine_region_edit' data.id %}">Edit</a>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'admin/js/wine_master/script_wine_region_detail.js' %}"></script>
+{% endblock javascripts %}

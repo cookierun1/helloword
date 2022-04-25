@@ -1,0 +1,65 @@
+{% extends "layouts/admin_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Wine Region</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item">Wine Master</li>
+            <li class="breadcrumb-item active">Region</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+  
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Wine Region 관리</h5>
+            <p>Wine Region Data를 검색, 생성, 수정 및 삭제할 수 있습니다.</p>
+            <div>
+              <a class="btn btn-primary" href="{% url 'system_manage:wine_region_create' %}">Create Data</a>
+            </div>
+          </div>
+        </div>
+        <div class="card" >
+            <div class="card-body">
+                <h5 class="card-title">Data</h5>
+                <table class='table table-hover' id='dataTable'>
+                    <thead>
+                    <tr>
+                      <th class='col-md-auto'>#</th>
+                      <th class='col-md-auto'>영문이름</th>
+                      <th class='col-md-auto'>한글이름</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if region %}
+                        {% for i in region %}
+                            <tr>
+                                <td><a href="{% url 'system_manage:wine_region_detail' i.id %}">{{i.id}}</a></td>
+                                <td>{{i.regionNameEn}}</td>
+                                <td>{{i.regionNameKr}}</td> 
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">데이터가 없습니다.</td>
+                    </tr>
+                    {% endif %}
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

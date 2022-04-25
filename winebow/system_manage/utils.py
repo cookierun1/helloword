@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import permission_required
+import datetime
 
 def permission_required_method(perm, redirect_url=None, raise_exception=False):
     """
@@ -21,3 +22,11 @@ def permission_required_method(perm, redirect_url=None, raise_exception=False):
         return ignore_self
 
     return decorator
+
+
+def get_epochtime_ms():
+    '''
+    밀리 초 단위로 현재 UTC 시간 얻는 함수
+    김병주 (2022/04/25)
+    '''
+    return round(datetime.utcnow().timestamp() * 1000)
