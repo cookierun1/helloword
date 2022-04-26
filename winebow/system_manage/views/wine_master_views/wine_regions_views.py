@@ -17,7 +17,7 @@ class WineRegionView(LoginRequiredMixin, View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        paginate_by = '1'
+        paginate_by = '20'
         page = request.GET.get('page', '1')
         search_type = self.request.GET.get('search_type', '')
         search_keyword = self.request.GET.get('search_keyword', '')
