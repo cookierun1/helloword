@@ -21,10 +21,20 @@ class BaseModel(models.Model):
 
 # 유저
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    phone_no = models.CharField(db_column='phone_no', null=True, max_length=100, default='')
-    email_verified = models.CharField(max_length=10, default='0')
-    name = models.CharField(db_column='name', max_length=100)
+    auth_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    userNickname = models.CharField(null=True, max_length=100, verbose_name='회원닉네임')
+    userCurrentAddress = models.CharField(null=True, max_length=255, verbose_name='회원현재주소')
+    userCurrentZip = models.CharField(null=True, max_length=20, verbose_name='회원현재우편번호')
+    userPhone = models.CharField(null=True, max_length=100, verbose_name='회원연락처')
+    userBirth = models.DateField(default=None, verbose_name='회원생년월일')
+    userGender = models.CharField(null=True, max_length=10, verbose_name='회원성별')
+    userPoint = models.IntegerField(default=0, verbose_name='회원적립금')
+    userMemberPoint = models.IntegerField(default=0, verbose_name='회원맴버쉽포인트')
+    userAgreeGeneral = models.BooleanField(default=True, verbose_name='이용약관동의')
+    userAgreePrivate = models.BooleanField(default=True, verbose_name='개인정보수집동의')
+    userAgreePromotion = models.BooleanField(default=True, verbose_name='이벤트 프로모션동의')
+    emailVerified = models.BooleanField(default=True, verbose_name='이메일인증')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
 
     class Meta:
         db_table = "auth_profile"

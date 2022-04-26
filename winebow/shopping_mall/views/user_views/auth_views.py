@@ -140,7 +140,7 @@ def activate(request: HttpRequest, uidb64, token):
         user.is_active = True
         user.save()
         profile = user.profile
-        profile.email_verified = '1'
+        profile.emailVerified = '1'
         profile.save()
         return render(request, 'user/activation_complete.html', {'username' : user.username})
     else:
