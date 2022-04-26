@@ -9,7 +9,7 @@ from system_manage.views.system_manage_views.role_manage_views import RoleManage
 
 from system_manage.views.wine_master_views.wine_regions_views import WineRegionView, WineRegionCreateView, WineRegionDetailView, WineRegionEditView
 
-
+from system_manage.views.example_views.jqGrid_sample_views import GridSampleView
 
 app_name = 'system_manage'
 urlpatterns = [
@@ -18,12 +18,18 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='system_manage:login'), name='logout'),
     path('denied/', PermissionDeniedView.as_view(), name='denied'),
 
+    # 회원, 권한 접근 관리
     path('user-manage/', UserManageView.as_view(), name='user_manage'),
     path('permission-manage/', AccessPermissionView.as_view(), name='permission_manage'),
     path('access-manage/', AccessManageView.as_view(), name='access_manage'),
     path('access-manage/permissions/', GroupPermsListView.as_view(), name='access_manage_permissions'),
     path('role-manage/', RoleManageView.as_view(), name='role_manage'),
 
+    # jqGrid Sample
+    path('jqgrid-sample/', GridSampleView.as_view(), name='jqgrid_sample'),
+
+
+    # 와인 지역
     path('wine-region/', WineRegionView.as_view(), name='wine_region'),
     path('wine-region-create/', WineRegionCreateView.as_view(), name='wine_region_create'),
     path('wine-region-detail/<int:pk>', WineRegionDetailView.as_view(), name='wine_region_detail'),

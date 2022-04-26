@@ -49,7 +49,7 @@ class WineRegionView(LoginRequiredMixin, View):
 
         context['region'] = page_obj
         context['page_obj'] = page_obj
-        return render(request, 'wine_master/wine_region.html', context)
+        return render(request, 'wine_master/wine_region/wine_region.html', context)
 
 class WineRegionCreateView(LoginRequiredMixin, View):
     '''
@@ -58,7 +58,7 @@ class WineRegionCreateView(LoginRequiredMixin, View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        return render(request, 'wine_master/wine_region_create.html', context)
+        return render(request, 'wine_master/wine_region/wine_region_create.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
         context = {}
@@ -93,7 +93,7 @@ class WineRegionDetailView(LoginRequiredMixin, View):
         context = {}
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
         context['data'] = data
-        return render(request, 'wine_master/wine_region_detail.html', context)
+        return render(request, 'wine_master/wine_region/wine_region_detail.html', context)
     
     def delete(self, request: HttpRequest, *args, **kwargs):
         context = {}
@@ -118,7 +118,7 @@ class WineRegionEditView(LoginRequiredMixin, View):
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
         context['data'] = data
         
-        return render(request, 'wine_master/wine_region_edit.html', context)
+        return render(request, 'wine_master/wine_region/wine_region_edit.html', context)
 
     def post(self, request: HttpRequest, *args, **kwargs):
         context = {}
