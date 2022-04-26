@@ -29,16 +29,40 @@
         </div>
         <div class="card" >
             <div class="card-body">
-                <h5 class="card-title">Data</h5>
-                <table class='table table-hover' id='dataTable'>
-                    <thead>
+                <div class="row justify-content-between">
+                  <div class="col">
+                    <h5 class="card-title">Data</h5>
+                  </div>
+                  <div class="col-auto mt-3">
+                    <div class="search-bar">
+                      <form class="search-form d-flex align-items-center" method="get" action="">
+                        <select class="form-select form-select-sm" id="search_type" name="search_type" style="width: 150%;">
+                          {% if search_type == 'name_kr' %}
+                            <option value="name_kr" selected>한글이름</option>
+                          {% else %}
+                            <option value="name_kr">한글이름</option>
+                          {% endif %}
+                          {% if search_type == 'name_en' %}
+                            <option value="name_en" selected>영어이름</option>
+                          {% else %}
+                            <option value="name_en">영어이름</option>
+                          {% endif %}
+                        </select>
+                        <input class="form-control form-control-sm" type="text" name="search_keyword" placeholder="Search" value="{{search_keyword}}" style="width: 400%;">
+                        <button class="btn btn-sm btn-outline-secondary" type="submit" id="btn-search"><i class="bi bi-search"></i></button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <table class='table table-hover'>
+                  <thead>
                     <tr>
                       <th class='col-md-auto'>#</th>
                       <th class='col-md-auto'>영문이름</th>
                       <th class='col-md-auto'>한글이름</th>
                     </tr>
-                    </thead>
-                    <tbody>
+                  </thead>
+                  <tbody>
                     {% if region %}
                         {% for i in region %}
                             <tr>
@@ -52,8 +76,8 @@
                         <td colspan="3">데이터가 없습니다.</td>
                     </tr>
                     {% endif %}
-                    </tbody>
-                  </table>
+                  </tbody>
+                </table>
                 <!-- 페이징처리 시작 -->
                 <div id="paging">
                   <ul class="pagination justify-content-center">

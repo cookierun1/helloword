@@ -7,7 +7,7 @@ from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 import os, json
 
-from system_manage.utils import permission_required_method, get_epochtime_ms
+from system_manage.utils import permission_required_method
 from system_manage.models import Region
 
 class WineRegionView(LoginRequiredMixin, View):
@@ -17,9 +17,20 @@ class WineRegionView(LoginRequiredMixin, View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        paginate_by = '20'
+        paginate_by = '1'
         page = request.GET.get('page', '1')
-        region = Region.objects.all()
+        search_type = self.request.GET.get('search_type', '')
+        search_keyword = self.request.GET.get('search_keyword', '')
+        if search_keyword:
+            context['search_type'] = search_type
+            context['search_keyword'] = search_keyword
+            if search_type == 'name_kr':
+                region = Region.objects.filter(regionNameKr__icontains=search_keyword)
+            elif search_type == 'name_en':
+                region = Region.objects.filter(regionNameEn__icontains=search_keyword)
+        else:
+            region = Region.objects.all()
+
         paginator = Paginator(region, paginate_by)
 
         try:
