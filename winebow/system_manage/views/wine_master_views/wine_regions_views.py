@@ -4,6 +4,7 @@ from django.views.generic import View, TemplateView
 from django.http import HttpRequest, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 import os, json
 
 from system_manage.utils import permission_required_method, get_epochtime_ms
@@ -16,10 +17,28 @@ class WineRegionView(LoginRequiredMixin, View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
+        paginate_by = '20'
+        page = request.GET.get('page', '1')
         region = Region.objects.all()
-        context['region'] = region
-        return render(request, 'wine_master/wine_region.html', context)
+        paginator = Paginator(region, paginate_by)
 
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page = 1
+            page_obj = paginator.page(page)
+        except EmptyPage:
+            page = 1
+            page_obj = paginator.page(page)
+        except InvalidPage:
+            page = 1
+            page_obj = paginator.page(page)
+        pagelist = paginator.get_elided_page_range(page, on_each_side=3, on_ends=1)
+        context['pagelist'] = pagelist
+
+        context['region'] = page_obj
+        context['page_obj'] = page_obj
+        return render(request, 'wine_master/wine_region.html', context)
 
 class WineRegionCreateView(LoginRequiredMixin, View):
     '''
@@ -92,7 +111,8 @@ class WineRegionEditView(LoginRequiredMixin, View):
 
     def post(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        region = get_object_or_404(Region, pk=kwargs.get('pk'))
+        pk=kwargs.get('pk')
+        region = get_object_or_404(Region, pk=pk)
         name_kr = request.POST['name_kr']
         name_en = request.POST['name_en']
         image = request.FILES.get('image', None)
@@ -112,7 +132,7 @@ class WineRegionEditView(LoginRequiredMixin, View):
             region.regionImg = path + f'/{file_name}'
 
         region.save()
-
+        context['data_id'] = pk
         context['success'] = True
         context['message'] = '등록 되었습니다.'
         return JsonResponse(context, content_type='application/json')

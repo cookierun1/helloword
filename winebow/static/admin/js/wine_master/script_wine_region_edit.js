@@ -22,7 +22,7 @@ btn_submit.addEventListener("click", async() => {
             alert(result.message);
         }
         else {
-            location.href='/system-manage/wine-region-detail/' + data_id
+            location.href='/system-manage/wine-region-detail/' + result.data_id;
         }
     }
     catch(error){
