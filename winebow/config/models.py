@@ -25,7 +25,7 @@ class Profile(models.Model):
     userNickname = models.CharField(null=True, max_length=100, verbose_name='회원닉네임')
     userCurrentAddress = models.CharField(null=True, max_length=255, verbose_name='회원현재주소')
     userCurrentZip = models.CharField(null=True, max_length=20, verbose_name='회원현재우편번호')
-    userPhone = models.CharField(null=True, max_length=100, verbose_name='회원연락처')
+    userPhone = models.CharField(null=True, max_length=20, verbose_name='회원연락처')
     userBirth = models.DateField(default=None, verbose_name='회원생년월일')
     userGender = models.CharField(null=True, max_length=10, verbose_name='회원성별')
     userPoint = models.IntegerField(default=0, verbose_name='회원적립금')
@@ -33,7 +33,7 @@ class Profile(models.Model):
     userAgreeGeneral = models.BooleanField(default=True, verbose_name='이용약관동의')
     userAgreePrivate = models.BooleanField(default=True, verbose_name='개인정보수집동의')
     userAgreePromotion = models.BooleanField(default=True, verbose_name='이벤트 프로모션동의')
-    emailVerified = models.BooleanField(default=True, verbose_name='이메일인증')
+    emailVerified = models.BooleanField(default=False, verbose_name='이메일인증')
     updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
 
     class Meta:
