@@ -33,7 +33,7 @@ class Profile(models.Model):
     userAgreeGeneral = models.BooleanField(default=True, verbose_name='이용약관동의')
     userAgreePrivate = models.BooleanField(default=True, verbose_name='개인정보수집동의')
     userAgreePromotion = models.BooleanField(default=True, verbose_name='이벤트 프로모션동의')
-    emailVerified = models.BooleanField(default=False, verbose_name='이메일인증')
+    userEmailVerified = models.BooleanField(default=False, verbose_name='이메일인증')
     updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
 
     class Meta:

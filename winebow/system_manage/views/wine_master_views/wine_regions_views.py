@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, TemplateView
 from django.http import HttpRequest, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 import os, json
 
@@ -72,12 +72,7 @@ class WineRegionCreateView(LoginRequiredMixin, View):
             regionDes = description
         )
         if image:
-            file_ext = os.path.splitext(image.name)[1]
-            file_name = str(region.id) + file_ext
-            path = 'static/image/wine_master/region'
-            fs = FileSystemStorage(location=path)
-            fs.save(file_name, image)
-            region.regionImg = path + f'/{file_name}'
+            region.regionImg = image
             region.save()
 
         context['success'] = True
@@ -99,7 +94,7 @@ class WineRegionDetailView(LoginRequiredMixin, View):
         context = {}
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
         if data.regionImg:
-            os.remove(data.regionImg)
+            os.remove(os.path.join(settings.MEDIA_ROOT, data.regionImg.url)[1:])
         data.delete()
 
         context['success'] = True
@@ -134,13 +129,9 @@ class WineRegionEditView(LoginRequiredMixin, View):
         region.regionDes = description
         if image:
             if region.regionImg:
-                os.remove(region.regionImg)
-            file_ext = os.path.splitext(image.name)[1]
-            file_name = str(region.id) + file_ext
-            path = 'static/image/wine_master/region'
-            fs = FileSystemStorage(location=path)
-            fs.save(file_name, image)
-            region.regionImg = path + f'/{file_name}'
+                os.remove(os.path.join(settings.MEDIA_ROOT, region.regionImg.url)[1:])
+            region.regionImg = image
+            region.save()
 
         region.save()
         context['data_id'] = pk
