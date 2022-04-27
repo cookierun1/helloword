@@ -1,7 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
+
+
 
 
 urlpatterns = [
@@ -13,4 +17,4 @@ urlpatterns = [
     path('', include('shopping_mall.urls')),
     path('system-manage/', include('system_manage.urls')),
     path('pos-system/', include('pos_system.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
