@@ -26,7 +26,7 @@ class Profile(models.Model):
     userCurrentAddress = models.CharField(null=True, max_length=255, verbose_name='회원현재주소')
     userCurrentZip = models.CharField(null=True, max_length=20, verbose_name='회원현재우편번호')
     userPhone = models.CharField(null=True, max_length=20, verbose_name='회원연락처')
-    userBirth = models.DateField(default=None, verbose_name='회원생년월일')
+    userBirth = models.DateField(default=None, null=True, verbose_name='회원생년월일')
     userGender = models.CharField(null=True, max_length=10, verbose_name='회원성별')
     userPoint = models.IntegerField(default=0, verbose_name='회원적립금')
     userMemberPoint = models.IntegerField(default=0, verbose_name='회원맴버쉽포인트')

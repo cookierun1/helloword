@@ -65,10 +65,12 @@ class RegisterView(View):
         password = request.POST['password']
         password_confirm = request.POST['confirm-password']
         email = request.POST['email']
+
         if not validate_username(id):
             context['success'] = False
             context['message'] = "유효하지 않은 사용자 이름입니다."
             return JsonResponse(context, content_type="application/json")
+            
         if not validate_password(password):
             context['success'] = False
             context['message'] = "유효하지 않은 비밀번호입니다."

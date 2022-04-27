@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from config.models import Profile
+from system_manage.models import Wine
 
 # 배송지관리
 class ShipAddress(models.Model):
@@ -21,7 +22,9 @@ class ShipAddress(models.Model):
 # 와인리뷰
 class WineReview(models.Model):
     auth_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review_user')
-    wine = models.ForeignKey(User, on_delete=models.PROTECT, related_name='review_wine')
+    wine = models.ForeignKey(Wine, on_delete=models.PROTECT, related_name='review_wine')
+    reviewMemo = models.TextField(null=True, verbose_name='메모')
+    reviewRate = models.FloatField(default=5, verbose_name='평점')
     createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
     updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
 
