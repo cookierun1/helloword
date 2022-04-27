@@ -22,7 +22,7 @@ class ShipAddress(models.Model):
 # 와인리뷰
 class WineReview(models.Model):
     auth_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review')
-    wine = models.ForeignKey(Wine, on_delete=models.CASCADE)
+    wm_wine = models.ForeignKey(Wine, on_delete=models.CASCADE)
     reviewMemo = models.TextField(null=True, verbose_name='메모')
     reviewRate = models.FloatField(default=5, verbose_name='평점')
     createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')

@@ -106,13 +106,12 @@ class Winery(models.Model):
     class Meta :
         db_table = 'wma_winery'
 
-# TODO: 필드 추가 필요 미완성.
-# 와인마스터
+# 와인마스터 TODO: 필드 추가 필요 미완성.
 class Wine(models.Model):
-    region = models.ForeignKey(Region, on_delete=models.PROTECT)
-    grape = models.ForeignKey(Grape, on_delete=models.PROTECT)
-    winery = models.ForeignKey(Winery, on_delete=models.PROTECT)
-    country = models.ForeignKey(Country, on_delete=models.PROTECT)
+    wma_region = models.ForeignKey(Region, on_delete=models.PROTECT)
+    wma_grape = models.ForeignKey(Grape, on_delete=models.PROTECT)
+    wma_winery = models.ForeignKey(Winery, on_delete=models.PROTECT)
+    wma_country = models.ForeignKey(Country, on_delete=models.PROTECT)
     wineNum = models.CharField(max_length=100, verbose_name='와인제품번호')
     wineNameEn = models.CharField(max_length=100, verbose_name='와인명영문')
     wineNameKr = models.CharField(max_length=100, verbose_name='와인명영문')
@@ -139,8 +138,8 @@ class MonthPackage(models.Model):
 
 # 이달의와인
 class MonthWine(models.Model):
-    wine = models.ForeignKey(Wine, on_delete=models.PROTECT)
-    month_package = models.ForeignKey(MonthPackage, on_delete=models.PROTECT, related_name='month_wine')
+    wn_wine = models.ForeignKey(Wine, on_delete=models.PROTECT)
+    sm_month_package = models.ForeignKey(MonthPackage, on_delete=models.PROTECT, related_name='month_wine')
     wineNum = models.CharField(max_length=100, verbose_name='제품번호')
     monthWinePrice = models.IntegerField(verbose_name='제품가격')
     createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
@@ -162,8 +161,8 @@ class TodayReg(models.Model):
 
 # 오늘의와인
 class TodayWine(models.Model):
-    wine = models.ForeignKey(Wine, on_delete=models.PROTECT)
-    today_reg = models.ForeignKey(TodayReg, on_delete=models.PROTECT, related_name='today_wine')
+    wm_wine = models.ForeignKey(Wine, on_delete=models.PROTECT)
+    sm_today_reg = models.ForeignKey(TodayReg, on_delete=models.PROTECT, related_name='today_wine')
     wineNum = models.CharField(max_length=100, verbose_name='제품번호')
     todayWinePrice = models.IntegerField(verbose_name='제품가격')
     name = models.CharField(null=True, max_length=100, verbose_name='할인명')
@@ -175,7 +174,7 @@ class TodayWine(models.Model):
 
 # 와인경매
 class Auction(models.Model):
-    wine = models.ForeignKey(Wine, on_delete=models.PROTECT, related_name='auction')
+    wm_wine = models.ForeignKey(Wine, on_delete=models.PROTECT, related_name='auction')
     auctionNumber = models.CharField(max_length=100, verbose_name='제품번호')
     actionImage1 = models.CharField(max_length=255, null=True, verbose_name='와인이미지1')
     actionImage2 = models.CharField(max_length=255, null=True, verbose_name='와인이미지2')
@@ -221,7 +220,7 @@ class ShopGrade(models.Model):
 
 # 가맹점
 class Shop(models.Model):
-    shop_grade = models.ForeignKey(ShopGrade, on_delete=models.PROTECT, related_name='shop')
+    sma_shop_grade = models.ForeignKey(ShopGrade, on_delete=models.PROTECT, related_name='shop')
     shopName = models.CharField(max_length=100, verbose_name='가맹점이름')
     shopPhone = models.CharField(null=True, max_length=20, verbose_name='가맹점연락처')
     shopAddress = models.CharField(null=True, max_length=255, verbose_name='가맹점주소')
@@ -236,7 +235,7 @@ class Shop(models.Model):
 
 # 가맹점회원관리
 class ShopUser(models.Model):
-    shop = models.ForeignKey(ShopGrade, on_delete=models.CASCADE)
+    sm_shop = models.ForeignKey(ShopGrade, on_delete=models.CASCADE)
     auth_user = models.ForeignKey(User, on_delete=models.CASCADE)
     isStaff = models.BooleanField(default=False, verbose_name='관리자승급')
     createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
@@ -244,3 +243,42 @@ class ShopUser(models.Model):
 
     class Meta : 
         db_table = 'sm_shop_user'
+
+# 대분류
+class CategoryL(models.Model):
+    catLName = models.CharField(max_length=100, verbose_name='대분류이름')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+
+    class Meta : 
+        db_table = 'sm_cat_l'
+
+# 소분류
+class CategoryS(models.Model):
+    cat_l = models.ForeignKey(CategoryL, on_delete=models.CASCADE)
+    catSName = models.CharField(max_length=100, verbose_name='소분류이름')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+
+    class Meta : 
+        db_table = 'sm_cat_s'
+
+# 가맹점아이템마스터 TODO: 필드 추가 필요 미완성.
+class Item(models.Model):
+    sm_shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    wm_wine = models.ForeignKey(Wine, on_delete=models.PROTECT)
+    sm_cat_s = models.ForeignKey(CategoryS, on_delete=models.PROTECT)
+    shopItemNum = models.CharField(max_length=100, verbose_name='가맹점제품번호')
+    shopItemNameOne = models.CharField(null=True, max_length=100, verbose_name='가맹점제품명1')
+    shopItemNameTwo = models.CharField(null=True, max_length=100, verbose_name='가맹점제품명2')
+    shopItemImage = models.CharField(null=True, max_length=255, verbose_name='가맹점제품이미지')
+    shopItemVideo = models.CharField(null=True, max_length=255, verbose_name='가맹점제품동영상')
+    shopItemDes = models.TextField(null=True, verbose_name='가맹점제품설명')
+    shopItemPrice = models.IntegerField(verbose_name='가맹정제품가격')
+    shopItemQty = models.IntegerField(verbose_name='가맹정제품재고수량')
+    isWine = models.BooleanField(default=True, verbose_name='가맹점제품구분자')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+
+    class Meta : 
+        db_table = 'sm_item'
