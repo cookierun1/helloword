@@ -15,6 +15,7 @@ class WineRegionView(LoginRequiredMixin, View):
     와인 지역 정보 관리
     김병주/2022.04.22
     '''
+    login_url='system_manage:login'
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         paginate_by = '20'
@@ -56,6 +57,7 @@ class WineRegionCreateView(LoginRequiredMixin, View):
     와인 지역 Create
     김병주/2022.04.25
     '''
+    login_url='system_manage:login'
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         return render(request, 'wine_master/wine_region/wine_region_create.html', context)
@@ -84,6 +86,7 @@ class WineRegionDetailView(LoginRequiredMixin, View):
     와인 지역 Deatil 및 삭제
     김병주/2022.04.25
     '''
+    login_url='system_manage:login'
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
@@ -108,6 +111,7 @@ class WineRegionEditView(LoginRequiredMixin, View):
     와인 지역 Edit
     김병주/2022.04.21
     '''
+    login_url='system_manage:login'
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
