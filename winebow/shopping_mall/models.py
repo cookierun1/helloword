@@ -13,8 +13,8 @@ class ShipAddress(models.Model):
     shiopUserPhone = models.CharField(null=True, max_length=20, verbose_name='수령인연락처')
     shipDefault = models.BooleanField(default=False, verbose_name='기본배송지여부')
     shipMemo = models.TextField(null=True, verbose_name='배송메모')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta:
         db_table = "profile_shipAddress"
@@ -25,8 +25,8 @@ class WineReview(models.Model):
     wm_wine = models.ForeignKey(Wine, on_delete=models.CASCADE)
     reviewMemo = models.TextField(null=True, verbose_name='메모')
     reviewRate = models.FloatField(default=5, verbose_name='평점')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta:
         db_table = "wma_review"

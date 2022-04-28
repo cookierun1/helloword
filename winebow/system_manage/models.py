@@ -62,10 +62,10 @@ class AccessPermission(Permission):
 class Region(models.Model):
     regionNameEn = models.CharField(max_length=100, verbose_name='지역이름영문')
     regionNameKr = models.CharField(max_length=100, verbose_name='지역이름한글')
-    regionImg = models.ImageField(null=True, upload_to="image/wine_master/region", verbose_name='지역이미지')
+    regionImg = models.ImageField(null=True, upload_to="image/wine_master/region/", verbose_name='지역이미지')
     regionDes = models.TextField(null=True, verbose_name='지역설명')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'wma_region'
@@ -74,10 +74,10 @@ class Region(models.Model):
 class Country(models.Model):
     countryNameEn = models.CharField(max_length=100, verbose_name='생산국가이름영문')
     countryNameKr = models.CharField(max_length=100, verbose_name='생산국가이름한글')
-    countryImg = models.ImageField(null=True, upload_to="image/wine_master/country", verbose_name='생산국가이미지')
+    countryImg = models.ImageField(null=True, upload_to="image/wine_master/country/", verbose_name='생산국가이미지')
     countryDes = models.TextField(null=True, verbose_name='생산국가설명')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'wma_country'
@@ -88,8 +88,8 @@ class Grape(models.Model):
     grapeNameKr = models.CharField(max_length=100, verbose_name='포도이름한글')
     grapeImg = models.ImageField(null=True, upload_to="image/wine_master/grape", verbose_name='포도이미지')
     grapeDes = models.TextField(null=True, verbose_name='포도설명')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'wma_grape'
@@ -98,10 +98,10 @@ class Grape(models.Model):
 class Winery(models.Model):
     wineryNameEn = models.CharField(max_length=100, verbose_name='와이너리이름영문')
     wineryNameKr = models.CharField(max_length=100, verbose_name='와이너리이름한글')
-    wineryImg = models.ImageField(null=True, upload_to="image/wine_master/winery", verbose_name='와이너리이미지')
+    wineryImg = models.ImageField(null=True, upload_to="image/wine_master/winery/", verbose_name='와이너리이미지')
     wineryDes = models.TextField(null=True, verbose_name='외이너리설명')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'wma_winery'
@@ -115,10 +115,10 @@ class Wine(models.Model):
     wineNum = models.CharField(max_length=100, verbose_name='와인제품번호')
     wineNameEn = models.CharField(max_length=100, verbose_name='와인명영문')
     wineNameKr = models.CharField(max_length=100, verbose_name='와인명영문')
-    wineImg = models.ImageField(null=True, upload_to="image/wine_master/wine", verbose_name='와인이미지')
+    wineImg = models.ImageField(null=True, upload_to="image/wine_master/wine/", verbose_name='와인이미지')
     wineDes = models.TextField(null=True, verbose_name='와인설명')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'wm_wine'
@@ -128,10 +128,10 @@ class MonthPackage(models.Model):
     packageName = models.CharField(max_length=100, verbose_name='패키지이름')
     startDate = models.DateTimeField(null=True, verbose_name='시작일')
     endDate = models.DateTimeField(null=True, verbose_name='종료일')
-    packageImage = models.ImageField(null=True, upload_to="image/shop_master/package", verbose_name='패키지이미지')
+    packageImage = models.ImageField(null=True, upload_to="image/shop_master/package/", verbose_name='패키지이미지')
     packageStatus = models.BooleanField(default=False, verbose_name='진행현황')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'sm_month_package'
@@ -142,8 +142,8 @@ class MonthWine(models.Model):
     sm_month_package = models.ForeignKey(MonthPackage, on_delete=models.PROTECT, related_name='month_wine')
     wineNum = models.CharField(max_length=100, verbose_name='제품번호')
     monthWinePrice = models.IntegerField(verbose_name='제품가격')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'sm_month_wine'
@@ -153,8 +153,8 @@ class TodayReg(models.Model):
     displayStartTime = models.DateTimeField(null=True, verbose_name='시작시간')
     displayEndTime = models.DateTimeField(null=True, verbose_name='종료시간')
     displayStatus = models.BooleanField(default=False, verbose_name='진행현황')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'sm_today_reg'
@@ -166,8 +166,8 @@ class TodayWine(models.Model):
     wineNum = models.CharField(max_length=100, verbose_name='제품번호')
     todayWinePrice = models.IntegerField(verbose_name='제품가격')
     name = models.CharField(null=True, max_length=100, verbose_name='할인명')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'sm_today_wine'
@@ -176,9 +176,9 @@ class TodayWine(models.Model):
 class Auction(models.Model):
     wm_wine = models.ForeignKey(Wine, on_delete=models.PROTECT, related_name='auction')
     auctionNumber = models.CharField(max_length=100, verbose_name='제품번호')
-    actionImage1 = models.ImageField(null=True, upload_to="image/shop_master/auction", verbose_name='와인이미지1')
-    actionImage2 = models.ImageField(null=True, upload_to="image/shop_master/auction", verbose_name='와인이미지2')
-    actionImage3 = models.ImageField(null=True, upload_to="image/shop_master/auction", verbose_name='와인이미지3')
+    actionImage1 = models.ImageField(null=True, upload_to="image/shop_master/auction/", verbose_name='와인이미지1')
+    actionImage2 = models.ImageField(null=True, upload_to="image/shop_master/auction/", verbose_name='와인이미지2')
+    actionImage3 = models.ImageField(null=True, upload_to="image/shop_master/auction/", verbose_name='와인이미지3')
     auctionStartTime = models.DateTimeField(null=True, verbose_name='시작시간')
     auctionEndTime = models.DateTimeField(null=True, verbose_name='종료시간')
     auctionStartPrice = models.IntegerField(verbose_name='경매시작가격')
@@ -190,8 +190,8 @@ class Auction(models.Model):
     auctionBidderNum = models.IntegerField(verbose_name='경매참가자수')
     auctionValuePrice = models.IntegerField(verbose_name='감정가')
     auctionCurrentPrice = models.IntegerField(verbose_name='현재가')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
         db_table = 'sm_auction'
@@ -202,8 +202,8 @@ class AuctionBidder(models.Model):
     sm_auction = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name='auction_bidder')
     bidPirce = models.IntegerField(verbose_name='제시가')
     isBestBidder = models.BooleanField(default=False, verbose_name='낙찰여부')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta : 
         db_table = 'sm_auction_bidder'
@@ -212,8 +212,8 @@ class AuctionBidder(models.Model):
 class ShopGrade(models.Model):
     gradeName = models.CharField(max_length=100, verbose_name='등급이름')
     gradeLtdQty = models.IntegerField(verbose_name='상품등록개수')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta : 
         db_table = 'sma_shop_grade'
@@ -225,10 +225,10 @@ class Shop(models.Model):
     shopPhone = models.CharField(null=True, max_length=20, verbose_name='가맹점연락처')
     shopAddress = models.CharField(null=True, max_length=255, verbose_name='가맹점주소')
     shopRegNum = models.CharField(null=True, max_length=20, verbose_name='가맹점사업자등록번호')
-    shopImage = models.ImageField(null=True, upload_to="image/shop_master/shop", verbose_name='가맹점이미지')
+    shopImage = models.ImageField(null=True, upload_to="image/shop_master/shop/", verbose_name='가맹점이미지')
     shopPointRatio = models.IntegerField(verbose_name='기본적립금비율')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta : 
         db_table = 'sm_shop'
@@ -238,8 +238,8 @@ class ShopUser(models.Model):
     sm_shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     auth_user = models.ForeignKey(User, on_delete=models.CASCADE)
     isStaff = models.BooleanField(default=False, verbose_name='관리자승급')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta : 
         db_table = 'sm_shop_user'
@@ -248,8 +248,8 @@ class ShopUser(models.Model):
 class CategoryL(models.Model):
     sm_shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     catLName = models.CharField(max_length=100, verbose_name='대분류이름')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta : 
         db_table = 'sm_cat_l'
@@ -258,13 +258,13 @@ class CategoryL(models.Model):
 class CategoryS(models.Model):
     cat_l = models.ForeignKey(CategoryL, on_delete=models.CASCADE)
     catSName = models.CharField(max_length=100, verbose_name='소분류이름')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta : 
         db_table = 'sm_cat_s'
 
-# 가맹점아이템마스터 TODO: 필드 추가 필요 미완성. 비디오파일
+# 가맹점아이템마스터 TODO: 필드 추가 필요 미완성
 class Item(models.Model):
     sm_shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     wm_wine = models.ForeignKey(Wine, on_delete=models.PROTECT)
@@ -272,14 +272,23 @@ class Item(models.Model):
     shopItemNum = models.CharField(max_length=100, verbose_name='가맹점제품번호')
     shopItemNameOne = models.CharField(null=True, max_length=100, verbose_name='가맹점제품명1')
     shopItemNameTwo = models.CharField(null=True, max_length=100, verbose_name='가맹점제품명2')
-    shopItemImage = models.ImageField(null=True, upload_to="image/shop_master/item", verbose_name='가맹점제품이미지')
-    shopItemVideo = models.CharField(null=True, max_length=255, verbose_name='가맹점제품동영상')
+    shopItemImage = models.ImageField(null=True, upload_to="image/shop_master/item/", verbose_name='가맹점제품이미지')
+    shopItemVideo = models.FileField(null=True, upload_to="video/shop_master/item/%Y/%m/%d/", verbose_name='가맹점제품동영상')
     shopItemDes = models.TextField(null=True, verbose_name='가맹점제품설명')
     shopItemPrice = models.IntegerField(verbose_name='가맹정제품가격')
     shopItemQty = models.IntegerField(verbose_name='가맹정제품재고수량')
     isWine = models.BooleanField(default=True, verbose_name='가맹점제품구분자')
-    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta : 
         db_table = 'sm_item'
+
+# 맴버쉽아이템
+class MPItem(models.Model):
+    sm_item = models.ForeignKey(Item, on_delete=models.PROTECT)
+    MPPrice= models.IntegerField(verbose_name='차감포인트')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
+    class Meta : 
+        db_table = 'wma_mp_item'

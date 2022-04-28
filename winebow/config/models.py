@@ -7,8 +7,8 @@ from django.dispatch import receiver
 
 
 class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성시간')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
     deleted_at = models.DateTimeField(null=True, verbose_name='삭제시간')
 
     def delete(self, using=None, keep_parents=False):
@@ -34,7 +34,7 @@ class Profile(models.Model):
     userAgreePrivate = models.BooleanField(default=True, verbose_name='개인정보수집동의')
     userAgreePromotion = models.BooleanField(default=True, verbose_name='이벤트 프로모션동의')
     userEmailVerified = models.BooleanField(default=False, verbose_name='이메일인증')
-    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정시간')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta:
         db_table = "auth_profile"
