@@ -1,3 +1,5 @@
+from statistics import mode
+from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
@@ -57,6 +59,17 @@ class AccessPermission(Permission):
 
         #self.content_type = ct
         super(AccessPermission, self).save(*args)
+
+# summernote post
+class Board(models.Model):
+    title = models.CharField(max_length=100, null=True, verbose_name='제목')
+    content = models.TextField(verbose_name='내용')
+    auth_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta :
+        db_table = 'sm_board'
 
 # 기준지역
 class Region(models.Model):
@@ -184,7 +197,7 @@ class Auction(models.Model):
     auctionStartPrice = models.IntegerField(verbose_name='경매시작가격')
     auctionBidPrice = models.IntegerField(verbose_name='제시금액단위')
     auctionFinalPrice = models.IntegerField(verbose_name='낙찰가격')
-    auctionFinalUser = models.CharField(max_length=100, verbose_name='낙찰자')
+    auctionFinalUser = models.CharField(max_length=100, null=True, verbose_name='낙찰자')
     auctionStatus = models.BooleanField(default=False, verbose_name='경매상황')
     auctionDifferPrice = models.IntegerField(verbose_name='경매차액')
     auctionBidderNum = models.IntegerField(verbose_name='경매참가자수')
