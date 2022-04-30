@@ -39,12 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
+    
     #Graphene-Django
     'graphene_django',
     'django_filters',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'graphql_auth',
+    
+    #summernote
+    'django_summernote',
 
     #app
     'config',

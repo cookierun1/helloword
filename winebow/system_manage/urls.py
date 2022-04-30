@@ -8,8 +8,8 @@ from system_manage.views.system_manage_views.access_manage_views import AccessMa
 from system_manage.views.system_manage_views.role_manage_views import RoleManageView
 
 from system_manage.views.wine_master_views.wine_regions_views import WineRegionView, WineRegionCreateView, WineRegionDetailView, WineRegionEditView
-
 from system_manage.views.example_views.jqGrid_sample_views import GridSampleView, SampleView
+from system_manage.views.example_views.editor_sample_views import EditorSampleView
 
 app_name = 'system_manage'
 urlpatterns = [
@@ -29,6 +29,8 @@ urlpatterns = [
     path('jqgrid-sample/', SampleView.as_view(), name='jqgrid_sample'),
     path('grid_sample', GridSampleView.as_view(),name='grid_sample'),
 
+    # Editor Sample
+    path('editor-sample/', EditorSampleView.as_view(), name='editor_sample'),
 
     # 와인 지역
     path('wine-region/', WineRegionView.as_view(), name='wine_region'),
