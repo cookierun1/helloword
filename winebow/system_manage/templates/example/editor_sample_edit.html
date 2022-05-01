@@ -1,0 +1,53 @@
+{% extends "layouts/admin_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Editor Sample</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item active" >Editor Sample</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+  
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Editor Sample Data Create</h5>
+            <form id="data-form" method="post" action="">
+              <div class="row mb-3"> 
+                  <label for="title" class="col-sm-2 col-form-label">Title</label>
+                  <div class="col-sm-10"> 
+                      {{ form.title }}
+                  </div>
+              </div>
+              <div class="row mb-3"> 
+                  <label for="" class="col-sm-2 col-form-label">Content</label>
+                  <div class="col-sm-10">
+                      {{ form.content }}
+                  </div>
+              </div>
+              <div class="row mb-3"> 
+                  <label class="col-sm-2 col-form-label"></label>
+                  <div class="col-sm-10"> 
+                    <button type="button" id="btn-submit" class="btn btn-success">save</button>
+                  </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'admin/js/editor_sample/script_editor_sample_edit.js' %}"></script>
+{% endblock javascripts %}
+

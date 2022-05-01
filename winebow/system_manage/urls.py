@@ -9,7 +9,7 @@ from system_manage.views.system_manage_views.role_manage_views import RoleManage
 
 from system_manage.views.wine_master_views.wine_regions_views import WineRegionView, WineRegionCreateView, WineRegionDetailView, WineRegionEditView
 from system_manage.views.example_views.jqGrid_sample_views import GridSampleView, SampleView
-from system_manage.views.example_views.editor_sample_views import EditorSampleView
+from system_manage.views.example_views.editor_sample_views import EditorSampleView, EditorSampleCreateView, EditorSampleDetailView, EditorSampleEditView
 
 app_name = 'system_manage'
 urlpatterns = [
@@ -31,6 +31,12 @@ urlpatterns = [
 
     # Editor Sample
     path('editor-sample/', EditorSampleView.as_view(), name='editor_sample'),
+    path('editor-sample-create/', EditorSampleCreateView.as_view(), name='editor_sample_create'),
+    path('editor-sample-detail/<int:pk>', EditorSampleDetailView.as_view(), name='editor_sample_detail'),
+    path('editor-sample-edit/<int:pk>', EditorSampleEditView.as_view(), name='editor_sample_edit'),
+
+
+
 
     # 와인 지역
     path('wine-region/', WineRegionView.as_view(), name='wine_region'),

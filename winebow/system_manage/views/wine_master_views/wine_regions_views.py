@@ -140,5 +140,5 @@ class WineRegionEditView(LoginRequiredMixin, View):
         region.save()
         context['data_id'] = pk
         context['success'] = True
-        context['message'] = '등록 되었습니다.'
+        context['message'] = '수정 되었습니다.'
         return JsonResponse(context, content_type='application/json')

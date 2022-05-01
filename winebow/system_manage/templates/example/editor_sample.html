@@ -7,7 +7,7 @@
 {% block main %}
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>jqGrid Sample</h1>
+        <h1>Editor Sample</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
@@ -21,8 +21,39 @@
           <div class="card-body">
             <h5 class="card-title">Editor Sample</h5>
             <p>Editor Sample - SummerNote</p>
+            <div>
+              <a class="btn btn-primary" href="{% url 'system_manage:editor_sample_create' %}">Create Data</a>
+            </div>
           </div>
         </div>
+        <div class="card" >
+          <div class="card-body">
+              <table class='table table-hover'>
+                <thead>
+                  <tr>
+                    <th class='col-md-auto'>#</th>
+                    <th class='col-md-auto'>제목</th>
+                    <th class='col-md-auto'>작성자</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if board_list %}
+                      {% for i in board_list %}
+                          <tr>
+                              <td><a href="{% url 'system_manage:editor_sample_detail' i.id %}">{{i.id}}</a></td>
+                              <td>{{i.title}}</td>
+                              <td>{{i.auth_user.username}}</td> 
+                          </tr>
+                      {% endfor %}
+                  {% else %}
+                  <tr>
+                      <td colspan="3">데이터가 없습니다.</td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
       </section>
 </main>
 {% endblock %}
@@ -30,3 +61,4 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 {% endblock javascripts %}
+
