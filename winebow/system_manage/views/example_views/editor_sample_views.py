@@ -3,6 +3,7 @@ from django.http.request import QueryDict
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, JsonResponse 
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from system_manage.models import Board
 from django.core import serializers
 from system_manage.forms import BoardForm
@@ -15,8 +16,27 @@ class EditorSampleView(LoginRequiredMixin, View):
     login_url='system_manage:login'
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        context['board_list'] = Board.objects.all()
-        context['form'] = BoardForm
+        paginate_by = '20'
+        page = request.GET.get('page', '1')        
+        board_list = Board.objects.all()
+        paginator = Paginator(board_list, paginate_by)
+
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page = 1
+            page_obj = paginator.page(page)
+        except EmptyPage:
+            page = 1
+            page_obj = paginator.page(page)
+        except InvalidPage:
+            page = 1
+            page_obj = paginator.page(page)
+        pagelist = paginator.get_elided_page_range(page, on_each_side=3, on_ends=1)
+        context['pagelist'] = pagelist
+
+        context['board_list'] = page_obj
+        context['page_obj'] = page_obj
 
         return render(request, 'example/editor_sample.html', context)
 

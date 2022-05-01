@@ -52,6 +52,7 @@
                   {% endif %}
                 </tbody>
               </table>
+              {% include 'admin_pagination.html' %}
             </div>
           </div>
       </section>
@@ -60,5 +61,6 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script src="{% static 'js/script_pagination.js' %}"></script>
 {% endblock javascripts %}
 
