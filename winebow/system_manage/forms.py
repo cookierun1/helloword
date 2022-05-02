@@ -1,11 +1,11 @@
 from django import forms
-from system_manage.models import Board
+from system_manage.models import Summernote
 from django_summernote.widgets import SummernoteWidget
 
 
 class BoardForm(forms.ModelForm):
     class Meta:
-        model = Board
+        model = Summernote
         fields = ['title', 'content']
         widgets = {
             'title': forms.TextInput(attrs={

@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, JsonResponse 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
-from system_manage.models import Board
+from system_manage.models import Summernote
 from django.core import serializers
 from system_manage.forms import BoardForm
 
@@ -18,7 +18,7 @@ class EditorSampleView(LoginRequiredMixin, View):
         context = {}
         paginate_by = '20'
         page = request.GET.get('page', '1')        
-        board_list = Board.objects.all()
+        board_list = Summernote.objects.all()
         paginator = Paginator(board_list, paginate_by)
 
         try:
@@ -55,7 +55,7 @@ class EditorSampleCreateView(LoginRequiredMixin, View):
         context = {}
         title = request.POST['title']
         content = request.POST['content']
-        Board.objects.create(
+        Summernote.objects.create(
             title = title,
             content = content,
             auth_user = request.user
@@ -73,13 +73,13 @@ class EditorSampleDetailView(LoginRequiredMixin, View):
     login_url='system_manage:login'
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        data = get_object_or_404(Board, pk=kwargs.get('pk'))
+        data = get_object_or_404(Summernote, pk=kwargs.get('pk'))
         context['data'] = data
         return render(request, 'example/editor_sample_detail.html', context)
 
     def delete(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        data = get_object_or_404(Board, pk=kwargs.get('pk'))
+        data = get_object_or_404(Summernote, pk=kwargs.get('pk'))
         data.delete()
 
         context['success'] = True
@@ -95,7 +95,7 @@ class EditorSampleEditView(LoginRequiredMixin, View):
     login_url='system_manage:login'
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        data = get_object_or_404(Board, pk=kwargs.get('pk'))
+        data = get_object_or_404(Summernote, pk=kwargs.get('pk'))
         context['form'] = BoardForm(instance=data)
         
         return render(request, 'example/editor_sample_edit.html', context)
@@ -103,7 +103,7 @@ class EditorSampleEditView(LoginRequiredMixin, View):
     def post(self, request: HttpRequest, *args, **kwargs):
         context = {}
         pk=kwargs.get('pk')
-        data = get_object_or_404(Board, pk=pk)
+        data = get_object_or_404(Summernote, pk=pk)
         title = request.POST['title']
         content = request.POST['content']
         

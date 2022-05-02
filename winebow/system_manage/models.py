@@ -60,8 +60,8 @@ class AccessPermission(Permission):
         #self.content_type = ct
         super(AccessPermission, self).save(*args)
 
-# summernote post
-class Board(models.Model):
+# 서머노트
+class Summernote(models.Model):
     title = models.CharField(max_length=100, null=True, verbose_name='제목')
     content = models.TextField(verbose_name='내용')
     auth_user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -69,7 +69,7 @@ class Board(models.Model):
     updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta :
-        db_table = 'sm_board'
+        db_table = 'sm_summernote'
 
 # 기준지역
 class Region(models.Model):
