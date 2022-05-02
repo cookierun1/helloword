@@ -1,7 +1,10 @@
+from lib2to3.pgen2.token import COMMENT
+from pyexpat import model
+from xml.etree.ElementTree import Comment
 from django.db import models
 from django.contrib.auth.models import User
 from config.models import Profile
-from system_manage.models import Wine, Summernote, BoardType, Shop
+from system_manage.models import Wine, Summernote, BoardType, Shop, Item, VoucherType
 
 # 배송지관리
 class ShipAddress(models.Model):
@@ -63,3 +66,36 @@ class BoardReply(models.Model):
 
     class Meta:
         db_table = "sm_board_reply"
+
+# QR바우처
+class Voucher(models.Model):
+    auth_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    wm_voucher_type = models.ForeignKey(VoucherType, on_delete=models.PROTECT)
+    voucherNum = models.CharField(null=True, max_length=100, verbose_name='바우처그룹번호')
+    voucherTotalPrice = models.IntegerField(verbose_name='총금액')
+    voucherTotalQty = models.IntegerField(default=1, verbose_name='총수량')
+    voucherQRImg = models.ImageField(null=True, upload_to="image/voucher/%Y/%m/%d/", verbose_name='바우처그룹QR이미지')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta:
+        db_table = "vm_voucher"
+        
+# QR바우처상세
+class VoucherDetail(models.Model):
+    sm_item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    vm_voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+    voucherDetailNum = models.CharField(null=True, max_length=100, verbose_name='바우처그룹번호')
+    voucherPrice = models.IntegerField(verbose_name='제품가격')
+    discountRate = models.IntegerField(default=100, verbose_name='할인율')
+    wineQty = models.IntegerField(verbose_name='제품개수')
+    voucherSubTotal = models.IntegerField(verbose_name='총액')
+    vmVoucherUserLocation = models.CharField(null=True, max_length=100, verbose_name='사용처 저장')
+    isShipping = models.BooleanField(default=False, verbose_name='배송/픽업')
+    voucherExpDate = models.DateTimeField(null=True, verbose_name='만료일')
+    voucherQRImg = models.ImageField(null=True, upload_to="image/voucher_detail/%Y/%m/%d/", verbose_name='바우처QR이미지')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta:
+        db_table = "vm_voucher_detail"

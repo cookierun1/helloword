@@ -80,6 +80,15 @@ class BoardType(models.Model):
     class Meta:
         db_table = "sm_board_type"
 
+#  바우처결제방식
+class VoucherType(models.Model):
+    voucherTypeName = models.CharField(max_length=100, verbose_name='결제방식이름')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta:
+        db_table = "vm_voucher_type"
+
 # 기준지역
 class Region(models.Model):
     regionNameEn = models.CharField(max_length=100, verbose_name='지역이름영문')
@@ -194,13 +203,13 @@ class TodayWine(models.Model):
     class Meta :
         db_table = 'sm_today_wine'
 
-# 와인경매 TODO 이미지 날짜별 디렉토리분리
+# 와인경매
 class Auction(models.Model):
     wm_wine = models.ForeignKey(Wine, on_delete=models.PROTECT, related_name='auction')
     auctionNumber = models.CharField(max_length=100, verbose_name='제품번호')
-    actionImage1 = models.ImageField(null=True, upload_to="image/shop_master/auction/", verbose_name='와인이미지1')
-    actionImage2 = models.ImageField(null=True, upload_to="image/shop_master/auction/", verbose_name='와인이미지2')
-    actionImage3 = models.ImageField(null=True, upload_to="image/shop_master/auction/", verbose_name='와인이미지3')
+    actionImage1 = models.ImageField(null=True, upload_to="image/shop_master/auction/%Y/%m/%d/", verbose_name='와인이미지1')
+    actionImage2 = models.ImageField(null=True, upload_to="image/shop_master/auction/%Y/%m/%d/", verbose_name='와인이미지2')
+    actionImage3 = models.ImageField(null=True, upload_to="image/shop_master/auction/%Y/%m/%d/", verbose_name='와인이미지3')
     auctionStartTime = models.DateTimeField(null=True, verbose_name='시작시간')
     auctionEndTime = models.DateTimeField(null=True, verbose_name='종료시간')
     auctionStartPrice = models.IntegerField(verbose_name='경매시작가격')
