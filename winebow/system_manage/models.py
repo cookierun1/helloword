@@ -71,6 +71,15 @@ class Summernote(models.Model):
     class Meta :
         db_table = 'sm_summernote'
 
+# 게시판유형
+class BoardType(models.Model):
+    boardTypeName = models.CharField(max_length=100, verbose_name='유형이름')
+    createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta:
+        db_table = "sm_board_type"
+
 # 기준지역
 class Region(models.Model):
     regionNameEn = models.CharField(max_length=100, verbose_name='지역이름영문')
