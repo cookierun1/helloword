@@ -259,7 +259,6 @@ class ShopUser(models.Model):
 
 # 대분류
 class CategoryL(models.Model):
-    sm_shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     catLName = models.CharField(max_length=100, verbose_name='대분류이름')
     createdDate = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
