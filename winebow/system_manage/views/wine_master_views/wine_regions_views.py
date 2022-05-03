@@ -16,6 +16,7 @@ class WineRegionView(LoginRequiredMixin, View):
     김병주/2022.04.22
     '''
     login_url='system_manage:login'
+    @permission_required_method('read.wine_region', redirect_url='system_manage:denied')
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         paginate_by = '20'
@@ -58,10 +59,12 @@ class WineRegionCreateView(LoginRequiredMixin, View):
     김병주/2022.04.25
     '''
     login_url='system_manage:login'
+    @permission_required_method('read.wine_region', redirect_url='system_manage:denied')
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         return render(request, 'wine_master/wine_region/wine_region_create.html', context)
 
+    @permission_required_method('write.wine_region', raise_exception=True)
     def post(self, request: HttpRequest, *args, **kwargs):
         context = {}
         name_kr = request.POST['name_kr']
@@ -87,12 +90,14 @@ class WineRegionDetailView(LoginRequiredMixin, View):
     김병주/2022.04.25
     '''
     login_url='system_manage:login'
+    @permission_required_method('read.wine_region', redirect_url='system_manage:denied')
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
         context['data'] = data
         return render(request, 'wine_master/wine_region/wine_region_detail.html', context)
-    
+
+    @permission_required_method('write.wine_region', raise_exception=True)
     def delete(self, request: HttpRequest, *args, **kwargs):
         context = {}
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
@@ -112,13 +117,15 @@ class WineRegionEditView(LoginRequiredMixin, View):
     김병주/2022.04.21
     '''
     login_url='system_manage:login'
+    @permission_required_method('read.wine_region', redirect_url='system_manage:denied')
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
         context['data'] = data
         
         return render(request, 'wine_master/wine_region/wine_region_edit.html', context)
-
+        
+    @permission_required_method('write.wine_region', raise_exception=True)
     def post(self, request: HttpRequest, *args, **kwargs):
         context = {}
         pk=kwargs.get('pk')
