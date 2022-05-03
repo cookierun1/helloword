@@ -83,7 +83,8 @@ btn_register.addEventListener("click", async() => {
             btn_register.innerHTML='Register';
         }
         else {
-            location.href='/confirm-email?email='+email.value
+            alert(result.message);
+            location.href='/login';
         }
     }
     catch(error){

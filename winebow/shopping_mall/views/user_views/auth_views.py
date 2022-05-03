@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -52,6 +53,8 @@ class RegisterView(View):
     '''
     회원가입 기능, 이메일 전송
     김병주/2022.04.15
+    김병주/2022.05.03 - (수정) 이메일 인증 없앰
+
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
@@ -101,29 +104,34 @@ class RegisterView(View):
             return JsonResponse(context, content_type='application/json')
         except:
             print('이메일 사용 가능')
-            user = User.objects.create_user(
-                id,
-                email,
-                password
-            )
-            user.is_active = False
-            user.save()
-            userid = user.id
-            
-        current_site = get_current_site(request) 
-        message = render_to_string('user/activation_email.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user),
-        })
+        try:
+            with transaction.atomic(): 
+                user = User.objects.create_user(
+                    id,
+                    email,
+                    password
+                )
+                    # user.is_active = False
+                    # user.save()
+                    # userid = user.id
+                    
+                # current_site = get_current_site(request) 
+                # message = render_to_string('user/activation_email.html', {
+                #     'user': user,
+                #     'domain': current_site.domain,
+                #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                #     'token': account_activation_token.make_token(user),
+                # })
 
-        mail_title = "계정 활성화 확인 이메일"
-        sendEmail = EmailMessage(mail_title, message, settings.EMAIL_HOST_USER, to=[email])
-        print("이메일 전송: ", sendEmail.send())
-        default_group, _ = Group.objects.get_or_create(name=settings.DEFAULT_GROUP)
-        user.groups.add(default_group.id)
-
+                # mail_title = "계정 활성화 확인 이메일"
+                # sendEmail = EmailMessage(mail_title, message, settings.EMAIL_HOST_USER, to=[email])
+                # print("이메일 전송: ", sendEmail.send())
+                default_group, _ = Group.objects.get_or_create(name=settings.DEFAULT_GROUP)
+                user.groups.add(default_group.id)
+        except Exception as e:
+            context['success'] = False
+            context['message'] = '가입 오류'
+            return JsonResponse(context, content_type='application/json')
         context['success'] = True
         context['message'] = '가입 되었습니다.'
         return JsonResponse(context, content_type='application/json')

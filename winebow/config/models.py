@@ -37,7 +37,6 @@ class Profile(models.Model):
     userAgreeGeneral = models.BooleanField(default=True, verbose_name='이용약관동의')
     userAgreePrivate = models.BooleanField(default=True, verbose_name='개인정보수집동의')
     userAgreePromotion = models.BooleanField(default=True, verbose_name='이벤트 프로모션동의')
-    userEmailVerified = models.BooleanField(default=False, verbose_name='이메일인증')
     updatedDate = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta:
@@ -46,7 +45,7 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.create(auth_user=instance)
 
 
 @receiver(post_save, sender=User)

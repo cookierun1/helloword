@@ -12,5 +12,5 @@ class BoardForm(forms.ModelForm):
                 'id' : 'title',
                 'class': "form-control",
             }),
-            'content': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '400px'}}),
+            'content': SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '1000px'}}),
         }
