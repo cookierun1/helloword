@@ -14,5 +14,5 @@ urlpatterns = [
     #app
     path('', include('shopping_mall.urls')),
     path('system-manage/', include('system_manage.urls')),
-    path('pos-system/', include('pos_system.urls')),
+    path('shop-manage/', include('shop_manage.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

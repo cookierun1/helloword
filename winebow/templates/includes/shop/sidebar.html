@@ -1,0 +1,40 @@
+ <!-- ======= Sidebar ======= -->
+ <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'system_manage:home' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#item-manage" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Item Manage</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="item-manage" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="#">
+              <i class="bi bi-circle"></i><span>아이템 관리</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bi bi-circle"></i><span>멤버쉽 아이템 관리</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
+      <li class="nav-heading">User Manage</li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="#"> <i class="bi bi-file-earmark"></i> <span>가맹점 회원 관리</span> </a>
+      </li>
+      <li class="nav-heading">거래 내역</li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="#"> <i class="bi bi-file-earmark"></i> <span>거래 내역</span> </a>
+      </li>
+    </ul>
+
+  </aside><!-- End Sidebar-->

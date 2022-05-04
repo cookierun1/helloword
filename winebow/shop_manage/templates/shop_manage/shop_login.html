@@ -1,4 +1,4 @@
-{% extends "layouts/admin_base.html" %}
+{% extends "layouts/shop_base.html" %}
 {% load static %}
 
 {% block body %}
@@ -13,7 +13,7 @@
               <div class="d-flex justify-content-center py-4">
                 <a href="#" class="logo d-flex align-items-center w-auto">
                   <img src="{% static 'admin/assets/img/logo.png' %}" alt="">
-                  <span class="d-none d-lg-block">NiceAdmin</span>
+                  <span class="d-none d-lg-block">ShopAdmin</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -67,5 +67,5 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'admin/js/system_manage/script_login.js' %}"></script> 
+<script src="{% static 'shop/js/shop_manage/script_login.js' %}"></script> 
 {% endblock javascripts %}
