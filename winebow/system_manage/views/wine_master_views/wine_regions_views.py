@@ -103,10 +103,10 @@ class WineRegionDetailView(LoginRequiredMixin, View):
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
         if data.regionImg:
             try:
-                os.remove(os.path.join(settings.MEDIA_ROOT, data.regionImg.url)[1:])
+                os.remove(data.regionImg.url[1:])
             except:
                 pass
-        data.delete()
+        # data.delete()
 
         context['success'] = True
         context['message'] = '삭제되었습니다.'
@@ -143,7 +143,10 @@ class WineRegionEditView(LoginRequiredMixin, View):
         region.regionDes = description
         if image:
             if region.regionImg:
-                os.remove(os.path.join(settings.MEDIA_ROOT, region.regionImg.url)[1:])
+                try:
+                    os.remove(region.regionImg.url[1:])
+                except:
+                    pass
             region.regionImg = image
             region.save()
 
