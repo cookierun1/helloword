@@ -5,6 +5,6 @@ app_name = 'shop_manage'
 urlpatterns = [
     path('<int:pk>/', HomeView.as_view(), name='home'),
     path('login/', LoginView.as_view(), name='login'),
-    path('<int:pk>/logout/', LogoutView.as_view(next_page='shop_manage:login'), name='logout'),
+    path('logout/', LogoutView.as_view(next_page='shop_manage:login'), name='logout'),
     path('denied/', PermissionDeniedView.as_view(), name='denied'),
 ]

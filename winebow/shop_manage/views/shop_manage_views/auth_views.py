@@ -5,15 +5,19 @@ from django.views.generic import View, TemplateView
 from django.http import HttpRequest, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sessions.models import Session
+from django.urls import reverse
 
 
 # Create your views here.
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     '''
     가맹점 관리자 메인 화면
     김병주/2022.05.04
     '''
+    login_url='shop_manage:login'
     template_name = 'shop_manage/shop_main.html'
+    # TODO 가맹점 확인
+    @permission_required_method('read.shop_manage', redirect_url='shop_manage:denied')
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         pk = kwargs.get('pk')
@@ -26,10 +30,11 @@ class LoginView(View):
     가맹점 로그인 기능
     김병주/2022.05.04
     '''
+    # TODO 가맹점 확인
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         if request.user.is_authenticated:
-            return redirect('shop_manage:home')
+            return redirect('/shop-manage/0/')
         return render(request, 'shop_manage/shop_login.html', context)
     
     def post(self, request: HttpRequest, *args, **kwargs):
@@ -47,7 +52,10 @@ class LoginView(View):
             if 'next' in request.GET:
                 url = request.GET.get('next')
                 context['url'] = url.split('?next=')[-1]
-
+            else:
+                # TODO pk 값 변경
+                url = '/shop-manage/0'
+                context['url'] = url
             context['success'] = True
             context['message'] = '로그인 되었습니다.'
         else:

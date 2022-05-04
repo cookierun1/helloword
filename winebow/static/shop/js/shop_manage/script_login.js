@@ -25,12 +25,7 @@ btn_login.addEventListener("click", async() => {
             btn_login.disabled = false;
         }
         else {
-            if(result.url){
-                location.href = result.url;
-            }
-            else{
-                location.href = '';
-            }
+            location.href = result.url;
         }
     }
     catch(error){
