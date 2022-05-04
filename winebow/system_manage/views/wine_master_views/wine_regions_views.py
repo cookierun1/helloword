@@ -102,7 +102,10 @@ class WineRegionDetailView(LoginRequiredMixin, View):
         context = {}
         data = get_object_or_404(Region, pk=kwargs.get('pk'))
         if data.regionImg:
-            os.remove(os.path.join(settings.MEDIA_ROOT, data.regionImg.url)[1:])
+            try:
+                os.remove(os.path.join(settings.MEDIA_ROOT, data.regionImg.url)[1:])
+            except:
+                pass
         data.delete()
 
         context['success'] = True
