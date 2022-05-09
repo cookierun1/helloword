@@ -38,13 +38,20 @@ urlpatterns = [
     path('editor-sample-detail/<int:pk>', EditorSampleDetailView.as_view(), name='editor_sample_detail'),
     path('editor-sample-edit/<int:pk>', EditorSampleEditView.as_view(), name='editor_sample_edit'),
 
-
-
-
     # 와인 지역
     path('wine-region/', WineRegionView.as_view(), name='wine_region'),
     path('wine-region-create/', WineRegionCreateView.as_view(), name='wine_region_create'),
     path('wine-region-detail/<int:pk>', WineRegionDetailView.as_view(), name='wine_region_detail'),
     path('wine-region-edit/<int:pk>', WineRegionEditView.as_view(), name='wine_region_edit'),
-    
+
+    # 와인 생산 국가
+    path('wine_country/', winecountryView.as_view(), name="wine_country"),
+    path('wine_country_create/', winecountryCreateView.as_view(), name="wine_country_create"),
+    path('wine_country_detail/<int:pk>', WinecountryDetailView.as_view(), name='wine_country_detail'),
+    path('wine_country_edit/<int:pk>', WinecountryEditView.as_view(), name='wine_country_edit'),
+
+    # 와인 마스터
+    path('wine_master/', winemasterView.as_view(), name="wine_master"),
+    path('wine_master_create/', winemasterCreateView.as_view(), name="wine_master_create"),
+
 ]
