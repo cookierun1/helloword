@@ -7,6 +7,9 @@ from system_manage.views.system_manage_views.permission_manage_views import Acce
 from system_manage.views.system_manage_views.access_manage_views import AccessManageView, GroupPermsListView
 from system_manage.views.system_manage_views.role_manage_views import RoleManageView
 
+from system_manage.views.wine_master_views.wine_country_views import winecountryView, winecountryCreateView,WinecountryDetailView,WinecountryEditView
+from system_manage.views.wine_master_views.wine_master_views import winemasterView, winemasterCreateView
+
 from system_manage.views.wine_master_views.wine_regions_views import WineRegionView, WineRegionCreateView, WineRegionDetailView, WineRegionEditView
 from system_manage.views.example_views.jqGrid_sample_views import GridSampleView, SampleView
 from system_manage.views.example_views.editor_sample_views import EditorSampleView, EditorSampleCreateView, EditorSampleDetailView, EditorSampleEditView
