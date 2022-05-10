@@ -34,7 +34,7 @@
                     <h5 class="card-title">Data</h5>
                   </div>
                   <div class="col-auto mt-3">
-                    <!--<div class="search-bar">
+                    <div class="search-bar">
                       <form class="search-form d-flex align-items-center" method="get" action="">
                         <select class="form-select form-select-sm" id="search_type" name="search_type" style="width: 150%;">
                           {% if search_type == 'name_kr' %}
@@ -52,7 +52,7 @@
                         <button class="btn btn-sm btn-outline-secondary" type="submit" id="btn-search"><i class="bi bi-search"></i></button>
                       </form>
                     </div>
-                  </div>-->
+                  </div>
                 </div>
                 <table class='table table-hover'>
                   <thead>
@@ -68,7 +68,7 @@
                     {% if wine %}
                         {% for i in wine %}
                             <tr>
-                                <td><a href="#">{{i.id}}</a></td>
+                                <td><a href="{% url 'system_manage:wine_master_detail' i.id %}">{{i.id}}</a></td>
                                 <td>{{i.wineNum}}</td>
                                 <td>{{i.wineNameEn}}</td>
                                 <td>{{i.wineNameKr}}</td>
@@ -82,7 +82,7 @@
                     {% endif %}
                   </tbody>
                 </table>
-
+                {% include 'admin_pagination.html' %}
             </div>
         </div>
       </section>
@@ -90,7 +90,6 @@
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
-<!--
 {% block javascripts %}
 <script src="{% static 'js/script_pagination.js' %}"></script>
-{% endblock javascripts %}-->
+{% endblock javascripts %}

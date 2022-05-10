@@ -8,7 +8,7 @@ from system_manage.views.system_manage_views.access_manage_views import AccessMa
 from system_manage.views.system_manage_views.role_manage_views import RoleManageView
 
 from system_manage.views.wine_master_views.wine_country_views import winecountryView, winecountryCreateView,WinecountryDetailView,WinecountryEditView
-from system_manage.views.wine_master_views.wine_master_views import winemasterView, winemasterCreateView
+from system_manage.views.wine_master_views.wine_master_views import winemasterView, winemasterCreateView, WinemasterDetailView, WinemasterEditView
 
 from system_manage.views.wine_master_views.wine_regions_views import WineRegionView, WineRegionCreateView, WineRegionDetailView, WineRegionEditView
 from system_manage.views.example_views.jqGrid_sample_views import GridSampleView, SampleView
@@ -53,5 +53,7 @@ urlpatterns = [
     # 와인 마스터
     path('wine_master/', winemasterView.as_view(), name="wine_master"),
     path('wine_master_create/', winemasterCreateView.as_view(), name="wine_master_create"),
+    path('wine_master_detail/<int:pk>', WinemasterDetailView.as_view(), name="wine_master_detail"),
+    path('wine_master_edit/<int:pk>', WinemasterEditView.as_view(), name="wine_master_edit"),
 
 ]
